@@ -11,6 +11,9 @@
   --color-secondary: #10B981;
   --color-accent: #F97316;
 }
+.active{
+    @apply text-secondary font-semibold
+}
 .scope-one-regular {
   font-family: "Scope One", serif;
   font-weight: 400;
