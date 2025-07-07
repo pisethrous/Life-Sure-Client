@@ -3,8 +3,10 @@ import { Outlet } from 'react-router';
 
 const AuthLayout = () => {
     return (
-        <div>
-            <Outlet></Outlet>
+        <div className=' bg-primary min-h-screen'>
+            <div className='py-20'>
+                <Outlet></Outlet>
+            </div>
         </div>
     );
 };

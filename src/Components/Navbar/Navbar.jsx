@@ -30,10 +30,12 @@ const Navbar = () => {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden lg:flex space-x-4">
-              <NavLink to="/login">
+              <NavLink to="/auth/login">
                 <button className="px-4 py-2 text-white bg-secondary rounded">Sign In</button>
               </NavLink>
-             
+              <NavLink to="/auth/register">
+                <button className="px-4 py-2 text-white bg-secondary rounded">Sign Up</button>
+              </NavLink>
             </div>
 
             {/* Hamburger (mobile) */}
