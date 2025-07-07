@@ -1,2 +1,23 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Scope+One&display=swap');
 @plugin "daisyui";
+
+
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #1E3A8A;
+  --color-secondary: #10B981;
+  --color-accent: #F97316;
+}
+.scope-one-regular {
+  font-family: "Scope One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body{
+    font-family: "Scope One", serif;
+
+}
