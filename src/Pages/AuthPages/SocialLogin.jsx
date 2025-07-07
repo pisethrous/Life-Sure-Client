@@ -9,7 +9,7 @@ const SocialLogin = () => {
   <div className="divider">OR</div>
 
 </div>
-      <button  className="btn btn-info w-full">
+      <button  className="btn btn-accent text-white w-full">
         {" "}
         <FcGoogle /> Continue with Google
       </button>

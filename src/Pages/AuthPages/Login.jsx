@@ -9,7 +9,7 @@ const Login = () => {
         
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
-          <h1 className="font-bold text-4xl my-3 text-center">Login Now!</h1>
+          <h1 className="font-bold text-4xl my-3 text-center text-accent">Login Now!</h1>
           <div className="card-body">
             <form className="fieldset">
               {/* Email */}
