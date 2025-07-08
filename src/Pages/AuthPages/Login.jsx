@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 import loginImg from "../../assets/login.png";
 import GoBack from "../../Components/Back/GoBack";
@@ -10,7 +10,8 @@ import { toast } from "react-hot-toast";
 const Login = () => {
   const { loginUser } = useAuthContext();
   const navigate = useNavigate();
-
+const location = useLocation();
+const from = location.state || '/';
   const {
     register,
     handleSubmit,
@@ -24,7 +25,7 @@ const Login = () => {
       .then((result) => {
        console.log(result.user);
         toast.success("Login successful!");
-        navigate("/"); 
+        navigate(from); 
       })
       .catch((err) => {
         toast.error(err.message || "Login failed!");
