@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router";
 import SocialLogin from "./SocialLogin";
 import loginImg from "../../assets/login.png"
+import GoBack from "../../Components/Back/GoBack";
 const Login = () => {
   return (
     <div className="flex justify-center items-center ">
+  
       <div className="card bg-base-100 w-full max-w-4xl shadow-2xl p-5 flex flex-col md:flex-row">
-        
+            <GoBack></GoBack>
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
           <h1 className="font-bold text-4xl my-3 text-center text-accent">Login Now!</h1>

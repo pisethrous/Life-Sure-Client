@@ -21,7 +21,7 @@ const Navbar = () => {
       {/* Navbar */}
       <div className="drawer-content flex flex-col">
         <header className="p-4 bg-primary text-white">
-          <div className="container mx-auto flex justify-between items-center h-16">
+          <div className="container mx-auto flex justify-between items-center h-12">
             {/* Logo */}
           <Logo></Logo>
 

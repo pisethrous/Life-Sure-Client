@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext";
+
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../Firebase/Firebase.config";
 import Swal from "sweetalert2";
+import { Context } from "./Context";
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -88,7 +89,7 @@ const ContextProvider = ({ children }) => {
     logoutUser,
   };
   return (
-    <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
+    <Context.Provider value={authData}>{children}</Context.Provider>
   );
 };
 
