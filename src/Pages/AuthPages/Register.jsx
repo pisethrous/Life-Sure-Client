@@ -27,17 +27,17 @@ const Register = () => {
     const { name, email, password, photo } = data;
     const imageFile = photo[0];
 
-  
-
     createUser(email, password)
       .then((result) => {
-        toast.success("✅ Firebase user created");
+        // toast.success("✅ Firebase user created");
         console.log("👤 Firebase user:", result.user);
         return uploadImageToImgbb(imageFile);
       })
       .then((photoURL) => {
-
-        return updateUser(name, photoURL).then(() => {
+        return updateUser({
+          displayName: name,
+          photoURL: photoURL,
+        }).then(() => {
           const userInfo = {
             name,
             email,
@@ -45,13 +45,11 @@ const Register = () => {
             role: "customer",
             lastLogin: new Date().toISOString(),
           };
-    
+
           return axiosSecure.post("/users", userInfo);
         });
       })
       .then((res) => {
-      
-
         if (res.data.insertedId) {
           toast.success("🎉 Registration complete!");
           console.log("✅ User inserted into DB");
@@ -77,10 +75,14 @@ const Register = () => {
 
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
-          <h1 className="font-bold text-4xl my-3 text-center text-accent">Register Now!</h1>
+          <h1 className="font-bold text-4xl my-3 text-center text-accent">
+            Register Now!
+          </h1>
           <div className="card-body">
-            <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-3">
-
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="fieldset space-y-3"
+            >
               {/* Name */}
               <label className="label">Name</label>
               <input
@@ -89,7 +91,9 @@ const Register = () => {
                 className="input input-bordered w-full"
                 placeholder="Enter Your Name"
               />
-              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
 
               {/* Photo Upload */}
               <label className="label">Upload Photo</label>
@@ -99,7 +103,9 @@ const Register = () => {
                 {...register("photo", { required: "Photo is required" })}
                 className="file-input file-input-bordered w-full"
               />
-              {errors.photo && <p className="text-red-500 text-sm">{errors.photo.message}</p>}
+              {errors.photo && (
+                <p className="text-red-500 text-sm">{errors.photo.message}</p>
+              )}
 
               {/* Email */}
               <label className="label">Email</label>
@@ -109,7 +115,9 @@ const Register = () => {
                 className="input input-bordered w-full"
                 placeholder="Enter Your Email"
               />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
 
               {/* Password */}
               <label className="label">Password</label>
@@ -130,11 +138,16 @@ const Register = () => {
                 placeholder="Enter Password"
               />
               {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
               )}
 
               {/* Link + Button */}
-              <Link to="/auth/login" className="text-blue-500 text-sm mt-2 block">
+              <Link
+                to="/auth/login"
+                className="text-blue-500 text-sm mt-2 block"
+              >
                 Already have an account? Login
               </Link>
 
