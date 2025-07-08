@@ -5,12 +5,14 @@ import App from './App.jsx'
 import { router } from './router/router.jsx'
 import { RouterProvider } from 'react-router'
 import ContextProvider from './Context/AuthProvider/ContextProvider.jsx'
+import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
  
    <ContextProvider>
   <RouterProvider router={router} />
+    <Toaster position="top-center" reverseOrder={false} />
    </ContextProvider>
   </StrictMode>,
 )

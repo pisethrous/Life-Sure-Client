@@ -1,63 +1,105 @@
 import React from "react";
-import { Link } from "react-router"; 
-import SocialLogin from "./SocialLogin";
-import registerImg from "../../assets/register.png"; 
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import registerImg from "../../assets/register.png";
 import GoBack from "../../Components/Back/GoBack";
+import SocialLogin from "./SocialLogin";
+import useAuthContext from "../../Hooks/useAuthContext";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
+  const { createUser, updateUser } = useAuthContext();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const { name, email, password, photo } = data;
+    const imageFile = photo[0]; // it's a FileList
+
+    createUser(email, password)
+      .then((result) => {
+        return updateUser(name, imageFile); // You’ll implement image upload later
+      })
+      .then(() => {
+        toast.success("Registration successful!");
+        reset();
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(err.message || "Registration failed!");
+      });
+  };
+
   return (
-    <div className="flex justify-center items-center  ">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="card bg-base-100 w-full max-w-4xl shadow-2xl p-5 flex flex-col md:flex-row">
-         <GoBack></GoBack>
+        <GoBack />
+
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
           <h1 className="font-bold text-4xl my-3 text-center text-accent">Register Now!</h1>
           <div className="card-body">
-            <form className="fieldset">
+            <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-3">
 
               {/* Name */}
               <label className="label">Name</label>
               <input
                 type="text"
-                name="name"
+                {...register("name", { required: "Name is required" })}
                 className="input input-bordered w-full"
                 placeholder="Enter Your Name"
               />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
-              {/* Photo URL */}
-              <label className="label mt-2">Photo URL</label>
+              {/* Photo Upload */}
+              <label className="label">Upload Photo</label>
               <input
-                type="text"
-                name="photo"
-                className="input input-bordered w-full"
-                placeholder="Enter Your Photo URL"
+                type="file"
+                {...register("photo", { required: "Photo is required" })}
+                className="file-input file-input-bordered w-full"
               />
+              {errors.photo && <p className="text-red-500 text-sm">{errors.photo.message}</p>}
 
               {/* Email */}
-              <label className="label mt-2">Email</label>
+              <label className="label">Email</label>
               <input
                 type="email"
-                name="email"
+                {...register("email", { required: "Email is required" })}
                 className="input input-bordered w-full"
                 placeholder="Enter Your Email"
-                required
               />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
               {/* Password */}
-              <label className="label mt-2">Password</label>
+              <label className="label">Password</label>
               <input
                 type="password"
-                name="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Must be at least 8 characters",
+                  },
+                  pattern: {
+                    value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/,
+                    message: "Must include number, lowercase and uppercase",
+                  },
+                })}
                 className="input input-bordered w-full"
                 placeholder="Enter Password"
-                required
-                minLength="8"
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                title="Must be more than 8 characters, include number, lowercase and uppercase letters"
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password.message}</p>
+              )}
 
               {/* Link + Button */}
-              <Link to="/auth/login" className="text-blue-500 text-sm mt-3 block">
+              <Link to="/auth/login" className="text-blue-500 text-sm mt-2 block">
                 Already have an account? Login
               </Link>
 
