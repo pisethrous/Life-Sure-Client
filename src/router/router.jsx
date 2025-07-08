@@ -5,10 +5,12 @@ import Home from "../Pages/Home/Home";
 import AuthLayout from "../Layout/AuthLayout/AuthLayout";
 import Login from "../Pages/AuthPages/Login";
 import Register from "../Pages/AuthPages/Register";
+import ErrorPage from "../Pages/Error/ErrorPage";
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
