@@ -1,15 +1,20 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router"; // ✅ fixed import
 import { useForm } from "react-hook-form";
 import registerImg from "../../assets/register.png";
 import GoBack from "../../Components/Back/GoBack";
 import SocialLogin from "./SocialLogin";
-import useAuthContext from "../../Hooks/useAuthContext";
 import { toast } from "react-hot-toast";
 
+// 🔌 Custom hooks
+import useAuthContext from "../../Hooks/useAuthContext";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import uploadImageToImgbb from "../../Hooks/uploadImageToImgbb";
+
 const Register = () => {
-  const { createUser, updateUser } = useAuthContext();
-  const navigate = useNavigate();
+  const { createUser, updateUser } = useAuthContext(); // Firebase context
+  const axiosSecure = useAxiosSecure(); // Axios instance
+  const navigate = useNavigate(); // For navigation
 
   const {
     register,
@@ -20,19 +25,48 @@ const Register = () => {
 
   const onSubmit = (data) => {
     const { name, email, password, photo } = data;
-    const imageFile = photo[0]; // it's a FileList
+    const imageFile = photo[0];
+
+  
 
     createUser(email, password)
       .then((result) => {
-        return updateUser(name, imageFile); // You’ll implement image upload later
+        toast.success("✅ Firebase user created");
+        console.log("👤 Firebase user:", result.user);
+        return uploadImageToImgbb(imageFile);
       })
-      .then(() => {
-        toast.success("Registration successful!");
-        reset();
-        navigate("/");
+      .then((photoURL) => {
+
+        return updateUser(name, photoURL).then(() => {
+          const userInfo = {
+            name,
+            email,
+            photoURL,
+            role: "customer",
+            lastLogin: new Date().toISOString(),
+          };
+    
+          return axiosSecure.post("/users", userInfo);
+        });
+      })
+      .then((res) => {
+      
+
+        if (res.data.insertedId) {
+          toast.success("🎉 Registration complete!");
+          console.log("✅ User inserted into DB");
+          reset();
+          navigate("/");
+        } else if (res.data.message === "User already exists") {
+          toast.success("⚠️ User already exists, redirecting...");
+          navigate("/");
+        } else {
+          throw new Error("❌ User not saved in DB");
+        }
       })
       .catch((err) => {
-        toast.error(err.message || "Registration failed!");
+        console.error("⛔ Registration failed:", err);
+        toast.error(err.message || "Something went wrong!");
       });
   };
 
@@ -61,6 +95,7 @@ const Register = () => {
               <label className="label">Upload Photo</label>
               <input
                 type="file"
+                accept="image/*"
                 {...register("photo", { required: "Photo is required" })}
                 className="file-input file-input-bordered w-full"
               />
