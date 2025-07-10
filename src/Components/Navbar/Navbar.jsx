@@ -14,13 +14,13 @@ const Navbar = () => {
   );
 
   return (
-    <div className="drawer drawer-end lg:drawer-static">
+    <div className="drawer drawer-end lg:drawer-static  sticky top-0">
       {/* Toggle for mobile drawer */}
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
       {/* Navbar */}
-      <div className="drawer-content flex flex-col">
-        <header className="p-4 bg-primary text-white">
+      <div className="drawer-content flex flex-col ">
+        <header className="p-4 bg-primary/80  text-white">
           <div className="container mx-auto flex justify-between items-center h-12">
             {/* Logo */}
           <Logo></Logo>
