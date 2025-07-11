@@ -8,6 +8,13 @@ import Register from "../Pages/AuthPages/Register";
 import ErrorPage from "../Pages/Error/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layout/DashboardLayout/DashboardLayout";
+import ManageUsers from "../Pages/Role/Admin/ManageUsers";
+import Policies from "../Pages/Role/Admin/Policies";
+import AssignedCustomers from "../Pages/Role/Agent/AssignedCustomers";
+import Blogs from "../Pages/Role/Agent/Blogs";
+import Payments from "../Pages/Role/Customer/Payments";
+import MyPolicies from "../Pages/Role/Customer/MyPolicies";
+import RoleRoute from "./RoleRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -39,11 +46,28 @@ export const router = createBrowserRouter([
     element: <PrivateRoute>
       <DashboardLayout></DashboardLayout>
     </PrivateRoute>,
-    children:[
-      {
-        
-      }
-
-    ]
+   children: [
+    {
+      element: <RoleRoute allowedRole="admin" />,
+      children: [
+        { path: "admin/users", Component: ManageUsers },
+        { path: "admin/policies", Component: Policies },
+      ],
+    },
+    {
+      element: <RoleRoute allowedRole="agent" />,
+      children: [
+        { path: "agent/customers", Component: AssignedCustomers },
+        { path: "agent/blogs", Component: Blogs },
+      ],
+    },
+    {
+      element: <RoleRoute allowedRole="customer" />,
+      children: [
+        { path: "customer/mypolicies", Component: MyPolicies },
+        { path: "customer/payments", Component: Payments },
+      ],
+    },
+  ],
   }
 ]);
