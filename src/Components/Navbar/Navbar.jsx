@@ -1,9 +1,20 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { useState } from "react";
+import { NavLink } from "react-router"; 
 import Logo from "../Logo/Logo";
-
+import useAuthContext from "../../Hooks/useAuthContext";
+import { motion, AnimatePresence } from "framer-motion";
 const Navbar = () => {
-  // Reusable navigation links
+    const dropdownVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 },
+  };
+const [isClicked,setIsClicked] = useState(false);
+const {user,logoutUser}=useAuthContext();
+
+
+
+  // 🧩 Reusable Navigation Links
   const links = (
     <>
       <li><NavLink to="/">Home</NavLink></li>
@@ -14,30 +25,65 @@ const Navbar = () => {
     </>
   );
 
+  // 🧩 Reusable Auth Buttons
+  const authButtons = user ? (
+   <div className="flex flex-col items-center justify-center relative">
+	<div onClick={()=> setIsClicked(!isClicked)} className="flex space-x-5">
+		<img alt="" className="w-12 h-12 rounded-full ring-2 ring-offset-2 ring-secondary " 
+    src={user?.photoURL} />
+	
+	</div>
+  {
+   <AnimatePresence>
+        {isClicked && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={dropdownVariants}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute mt-40  rounded-md shadow-lg bg-gray-100   z-20"
+          >
+            <div className="p-4">
+              <h1 className="text-black">{user?.email}</h1>
+              <button onClick={()=>logoutUser()} className="btn btn-secondary text-white">log-Out</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+  }
+ 
+</div>
+  ) : (
+    <>
+      <li>
+        <NavLink to="/auth/login">
+          <button className="px-4 py-2 text-white bg-secondary rounded">Sign In</button>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/auth/register">
+          <button className="px-4 py-2 text-white bg-secondary rounded">Sign Up</button>
+        </NavLink>
+      </li>
+    </>
+  );
+
   return (
-    <div className="drawer drawer-end lg:drawer-static  sticky top-0">
-      {/* Toggle for mobile drawer */}
+    <div className="drawer drawer-end lg:drawer-static sticky top-0 z-50">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
       {/* Navbar */}
-      <div className="drawer-content flex flex-col ">
-        <header className="p-4 bg-primary/80  text-white">
+      <div className="drawer-content flex flex-col">
+        <header className="p-4 bg-primary/80 text-white">
           <div className="container mx-auto flex justify-between items-center h-12">
-            {/* Logo */}
-          <Logo></Logo>
+            <Logo />
 
             {/* Desktop Links */}
-            <ul className="hidden lg:flex space-x-6">{links}</ul>
+            <ul className="hidden lg:flex space-x-6 items-center">{links}</ul>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden lg:flex space-x-4">
-              <NavLink to="/auth/login">
-                <button className="px-4 py-2 text-white bg-secondary rounded">Sign In</button>
-              </NavLink>
-              <NavLink to="/auth/register">
-                <button className="px-4 py-2 text-white bg-secondary rounded">Sign Up</button>
-              </NavLink>
-            </div>
+            <ul className="hidden lg:flex space-x-4 items-center">{authButtons}</ul>
 
             {/* Hamburger (mobile) */}
             <div className="lg:hidden">
@@ -57,13 +103,12 @@ const Navbar = () => {
         </header>
       </div>
 
-      {/* Drawer Content (mobile nav) */}
+      {/* Drawer Side (Mobile Menu) */}
       <div className="drawer-side lg:hidden z-50">
         <label htmlFor="my-drawer" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content space-y-2">
           {links}
-          <li><NavLink to="/login">Sign In</NavLink></li>
-          <li><NavLink to="/signup">Sign Up</NavLink></li>
+          {authButtons}
         </ul>
       </div>
     </div>
