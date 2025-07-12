@@ -3,11 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 import AddPolicyForm from "./AddPolicyForm";
+import EditPolicyForm from "./EditPolicyForm";
 
 
 const ManagePolicies = () => {
   const axiosSecure = useAxiosSecure();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingPolicy, setEditingPolicy] = useState(null);
 
   const {
     data: policies = [],
@@ -28,7 +30,7 @@ const ManagePolicies = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Manage Policies</h2>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsAddModalOpen(true)}
           className="btn btn-primary"
         >
           ➕ Add New Policy
@@ -54,11 +56,20 @@ const ManagePolicies = () => {
                 <td>{index + 1}</td>
                 <td>{policy.title}</td>
                 <td>{policy.category}</td>
-                <td>{policy.minAge} - {policy.maxAge}</td>
+                <td>
+                  {policy.minAge} - {policy.maxAge}
+                </td>
                 <td>${policy.basePremium}</td>
                 <td>
-                  <button className="btn btn-xs btn-outline mr-2">Edit</button>
-                  <button className="btn btn-xs btn-error text-white">Delete</button>
+                  <button
+                    className="btn btn-xs btn-outline mr-2"
+                    onClick={() => setEditingPolicy(policy)}
+                  >
+                    Edit
+                  </button>
+                  <button className="btn btn-xs btn-error text-white">
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -66,18 +77,32 @@ const ManagePolicies = () => {
         </table>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
+      {/* Modal - Shared for Add & Edit */}
+      {(isAddModalOpen || editingPolicy) && (
         <dialog open className="modal">
           <div className="modal-box max-w-2xl">
-        
-            <AddPolicyForm
-              onClose={() => setIsModalOpen(false)}
-              refetch={refetch}
-            />
+            {editingPolicy ? (
+              <EditPolicyForm
+                policy={editingPolicy}
+                onClose={() => setEditingPolicy(null)}
+                refetch={refetch}
+              />
+            ) : (
+              <AddPolicyForm
+                onClose={() => setIsAddModalOpen(false)}
+                refetch={refetch}
+              />
+            )}
           </div>
           <form method="dialog" className="modal-backdrop">
-            <button onClick={() => setIsModalOpen(false)}>close</button>
+            <button
+              onClick={() => {
+                setIsAddModalOpen(false);
+                setEditingPolicy(null);
+              }}
+            >
+              close
+            </button>
           </form>
         </dialog>
       )}
