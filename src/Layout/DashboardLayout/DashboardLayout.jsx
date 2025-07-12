@@ -68,7 +68,7 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/admin/policies">
+                <NavLink to="/dashboard/admin/managePolicies">
                   <FaBoxOpen className="inline-block mr-2" />
                   Manage Policies
                 </NavLink>

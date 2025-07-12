@@ -9,12 +9,12 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layout/DashboardLayout/DashboardLayout";
 import ManageUsers from "../Pages/Role/Admin/ManageUsers";
-import Policies from "../Pages/Role/Admin/Policies";
 import AssignedCustomers from "../Pages/Role/Agent/AssignedCustomers";
 import Blogs from "../Pages/Role/Agent/Blogs";
 import Payments from "../Pages/Role/Customer/Payments";
 import MyPolicies from "../Pages/Role/Customer/MyPolicies";
 import RoleRoute from "./RoleRoute";
+import ManagePolicies from "../Pages/Role/Admin/ManagePolicies";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -52,7 +52,8 @@ export const router = createBrowserRouter([
       element: <RoleRoute allowedRole="admin" />,
       children: [
         { path: "admin/users", Component: ManageUsers },
-        { path: "admin/policies", Component: Policies },
+
+        { path: "admin/managePolicies", Component: ManagePolicies },
       ],
     },
     {
