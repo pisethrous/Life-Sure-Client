@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 import AddPolicyForm from "./AddPolicyForm";
 import EditPolicyForm from "./EditPolicyForm";
+import Swal from "sweetalert2";
 
 
 const ManagePolicies = () => {
@@ -23,6 +24,33 @@ const ManagePolicies = () => {
     },
   });
 
+ 
+  const handleDelete = async (policyId) => {
+    const confirmResult = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this policy?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    if (confirmResult.isConfirmed) {
+      try {
+        const res = await axiosSecure.delete(`/policies/${policyId}`);
+        if (res.data.deletedCount > 0) {
+          Swal.fire('Deleted!', 'The policy has been deleted.', 'success');
+          refetch();
+        } else {
+          Swal.fire('Error', 'policy not found or could not be deleted.', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        Swal.fire('Error', 'Something went wrong while deleting.', 'error');
+      }
+    }
+  };
   if (isLoading) return <Loading />;
 
   return (
@@ -67,7 +95,10 @@ const ManagePolicies = () => {
                   >
                     Edit
                   </button>
-                  <button className="btn btn-xs btn-error text-white">
+                  <button
+                    onClick={() => handleDelete(policy._id)}
+                    className="btn btn-xs btn-error text-white"
+                  >
                     Delete
                   </button>
                 </td>
