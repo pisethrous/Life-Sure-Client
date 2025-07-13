@@ -6,10 +6,12 @@ import GoBack from "../../Components/Back/GoBack";
 import { useForm } from "react-hook-form";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { toast } from "react-hot-toast";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Login = () => {
   const { loginUser } = useAuthContext();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 const location = useLocation();
 const from = location.state || '/';
   const {
@@ -25,6 +27,9 @@ const from = location.state || '/';
       .then((result) => {
        console.log(result.user);
         toast.success("Login successful!");
+           axiosSecure.patch(`/users/last-login/${email}`, {
+      lastLogin: new Date().toISOString(),
+    });
         navigate(from); 
       })
       .catch((err) => {

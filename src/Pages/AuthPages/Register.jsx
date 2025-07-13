@@ -47,6 +47,7 @@ const Register = () => {
             photoURL,
             role: "customer",
             lastLogin: new Date().toISOString(),
+            registerAt: new Date().toISOString(),
           };
           return axiosSecure.post("/users", userInfo);
         });
