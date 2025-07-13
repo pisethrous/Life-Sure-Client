@@ -74,6 +74,7 @@ const ManagePolicies = () => {
           <thead>
             <tr>
               <th>#</th>
+              <th>image</th>
               <th>Title</th>
               <th>Category</th>
               <th>Min-Max Age</th>
@@ -85,6 +86,9 @@ const ManagePolicies = () => {
             {policies.map((policy, index) => (
               <tr key={policy._id}>
                 <td>{index + 1}</td>
+                <td>
+                  <img className="w-12 h-12 rounded-md" src={policy.image} alt="" />
+                </td>
                 <td>{policy.title}</td>
                 <td>{policy.category}</td>
                 <td>

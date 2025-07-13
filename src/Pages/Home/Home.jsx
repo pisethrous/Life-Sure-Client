@@ -4,8 +4,9 @@ import useTitle from '../../Hooks/useTitle';
 const Home = () => {
 useTitle("Home");
     return (
-        <div>
-            <h1>this is home</h1>
+        <div >
+            <h1>home is coming..........</h1>
+         
         </div>
     );
 };

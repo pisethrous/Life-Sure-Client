@@ -18,7 +18,7 @@ const {user,logoutUser}=useAuthContext();
   const links = (
     <>
       <li><NavLink to="/">Home</NavLink></li>
-      <li><NavLink to="/services">All Policies</NavLink></li>
+      <li><NavLink to="/allPolicies">All Policies</NavLink></li>
       <li><NavLink to="/about">Agent</NavLink></li>
       <li><NavLink to="/contact">FAQS</NavLink></li>
       <li><NavLink to="/dashboard">Dashboard</NavLink></li>
@@ -70,7 +70,7 @@ const {user,logoutUser}=useAuthContext();
   );
 
   return (
-    <div className="drawer drawer-end lg:drawer-static sticky top-0 z-50">
+    <div className="drawer drawer-end lg:drawer-static backdrop-blur-md sticky top-0 z-50">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
       {/* Navbar */}
