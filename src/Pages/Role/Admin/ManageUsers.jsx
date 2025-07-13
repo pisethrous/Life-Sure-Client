@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 import Swal from "sweetalert2";
+import useTitle from "../../../Hooks/useTitle";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-
+  useTitle("ManageUsers");
   const {
     data: users = [],
     isLoading,
