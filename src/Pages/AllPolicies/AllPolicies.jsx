@@ -5,6 +5,7 @@ import debounce from "lodash/debounce";
 
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
+import { useNavigate } from "react-router";
 
 const AllPolicies = () => {
   const axiosSecure = useAxiosSecure();
@@ -13,7 +14,7 @@ const AllPolicies = () => {
   const [category, setCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
+const navigate = useNavigate();
   // Reset page on filter/search change
   useEffect(() => {
     setCurrentPage(1);
@@ -94,7 +95,7 @@ const AllPolicies = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="card bg-white shadow-xl rounded-2xl overflow-hidden"
+            className="card bg-white shadow-xl rounded-2xl overflow-hidden relative"
           >
             <figure className="h-48">
               <img
@@ -105,10 +106,21 @@ const AllPolicies = () => {
             </figure>
             <div className="card-body">
               <h2 className="card-title text-lg">{policy.title}</h2>
-              <p className="text-sm text-gray-500">{policy.category}</p>
+              <p className="text-sm bg-accent text-white rounded-lg p-1 -mt-10 hover:scale-105 absolute">
+                {policy.category}
+              </p>
               <p className="text-sm mt-2 line-clamp-2">{policy.description}</p>
-              <div className="card-actions mt-4 justify-end">
-                <button className="btn btn-outline btn-sm">View Details</button>
+              <div className="card-actions mt-4 ">
+                <button onClick={()=>navigate(`/policies/${policy._id}`)}
+                  className="btn w-full bg-secondary text-white 
+                  hover:translate-x-2 
+                   hover:duration-75 
+                   transition-all 
+                   ease-in-out 
+                   hover:bg-gradient-to-r from-primary/25 to-secondary/100"
+                >
+                  View Details
+                </button>
               </div>
             </div>
           </motion.div>

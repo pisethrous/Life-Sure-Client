@@ -16,6 +16,7 @@ import MyPolicies from "../Pages/Role/Customer/MyPolicies";
 import RoleRoute from "./RoleRoute";
 import ManagePolicies from "../Pages/Role/Admin/ManagePolicies";
 import AllPolicies from "../Pages/AllPolicies/AllPolicies";
+import PolicyDetails from "../Pages/AllPolicies/PolicyDetails";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path:'allPolicies',
         Component: AllPolicies
+      },
+      {
+        path:'policies/:id',
+        Component: PolicyDetails
       }
     ],
   },
