@@ -92,17 +92,12 @@ const PolicyDetails = () => {
           {/* Buttons */}
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             <button
-              className="btn btn-primary"
+               className="btn btn-outline btn-secondary hover:bg-secondary hover:text-white w-full"
               onClick={() => navigate(`/quote/${policy._id}`)}
             >
               Get Quote
             </button>
-            <button
-              className="btn btn-outline btn-secondary hover:bg-secondary hover:text-white"
-              onClick={() => navigate("/consultation")}
-            >
-              Book Agent Consultation
-            </button>
+           
           </div>
         </div>
       </div>

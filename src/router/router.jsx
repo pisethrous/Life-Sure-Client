@@ -17,6 +17,7 @@ import RoleRoute from "./RoleRoute";
 import ManagePolicies from "../Pages/Role/Admin/ManagePolicies";
 import AllPolicies from "../Pages/AllPolicies/AllPolicies";
 import PolicyDetails from "../Pages/AllPolicies/PolicyDetails";
+import QuotePage from "../Pages/Quote/QuotePage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +35,12 @@ export const router = createBrowserRouter([
       {
         path:'policies/:id',
         Component: PolicyDetails
+      },
+      {
+       path:'quote/:id',
+       element: <PrivateRoute>
+        <QuotePage></QuotePage>
+       </PrivateRoute>
       }
     ],
   },
