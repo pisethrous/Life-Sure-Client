@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 const QuotePage = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-
+const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -188,9 +188,11 @@ const QuotePage = () => {
         </div>
       </form>
       <div className="flex justify-between items-center pt-4">
-        <button className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full">
-          Apply For policy
-        </button>
+        
+            <button onClick={()=>navigate(`/application/${policy._id}`)} className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full">
+              Apply For policy
+            </button>
+    
       </div>
     </div>
   );
