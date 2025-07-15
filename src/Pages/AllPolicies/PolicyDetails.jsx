@@ -38,7 +38,7 @@ const PolicyDetails = () => {
           <hr className="my-2" />
           <p className="text-gray-700">{policy.description}</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
             <div>
               <p className="font-semibold">Minimum Age:</p>
               <p>{policy.minAge} years</p>
@@ -59,6 +59,34 @@ const PolicyDetails = () => {
               <p className="font-semibold">Base Premium:</p>
               <p>${policy.basePremium.toFixed(2)}</p>
             </div>
+          </div> */}
+          <div>
+            <h1 className="text-3xl font-bold my-5">Key information:</h1>
+            <ul className="list-disc list-outside ml-6">
+              <li>
+                Eligibility: individuals age{" "}
+                <span className="opacity-60">
+                  {policy.minAge} to {policy.maxAge}
+                </span>
+              </li>
+              <li>
+                Premium calculation Logic:{" "}
+                <span className="opacity-60">
+                  Premiums are calculated based on
+                  age,gender,coverage,amount,policy duration and smoker status
+                </span>
+              </li>
+              <li>
+                Term Length options:{" "}
+                <span className="opacity-60">
+                  available for {policy.duration}
+                </span>
+              </li>
+              <li>
+                Coverage :{" "}
+                <span className="opacity-60"> {policy.coverage}</span>
+              </li>
+            </ul>
           </div>
 
           {/* Buttons */}

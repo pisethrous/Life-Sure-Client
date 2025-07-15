@@ -5,7 +5,7 @@ import debounce from "lodash/debounce";
 
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
-import { useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 
 const AllPolicies = () => {
   const axiosSecure = useAxiosSecure();
@@ -15,6 +15,8 @@ const AllPolicies = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 const navigate = useNavigate();
+
+
   // Reset page on filter/search change
   useEffect(() => {
     setCurrentPage(1);
