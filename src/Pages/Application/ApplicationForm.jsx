@@ -3,6 +3,8 @@ import { useForm, Controller } from "react-hook-form";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import Select from "react-select";
+import useAuthContext from "../../Hooks/useAuthContext";
+import { useLocation } from "react-router";
 
 const relationships = [
   { value: "Spouse", label: "Spouse" },
@@ -27,6 +29,8 @@ const healthConditions = [
 
 const ApplicationForm = () => {
   const axiosSecure = useAxiosSecure();
+const {user}=useAuthContext();
+const {state}=useLocation();
 
   const {
     register,
@@ -38,7 +42,9 @@ const ApplicationForm = () => {
   const onSubmit = async (data) => {
     const applicationData = {
       ...data,
+      policy_name:state,
       status: "Pending",
+      
     };
 
     try {
@@ -70,13 +76,13 @@ const ApplicationForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="label">Full Name</label>
-              <input {...register("name", { required: true })} className="input input-bordered w-full" />
-              {errors.name && <p className="text-red-500 text-sm">Name is required</p>}
+              <input {...register("name", { required: true })} defaultValue={user?.displayName} readOnly className="input input-bordered w-full" />
+             
             </div>
             <div>
               <label className="label">Email</label>
-              <input {...register("email", { required: true })} className="input input-bordered w-full" />
-              {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
+              <input {...register("email", { required: true })} defaultValue={user?.email} readOnly className="input input-bordered w-full" />
+            
             </div>
             <div>
               <label className="label">Phone Number</label>

@@ -31,6 +31,7 @@ const navigate = useNavigate();
     enabled: !!id, // Prevent query from running if ID is undefined
   });
 
+
   const onSubmit = (data) => {
     const { age, gender, coverageAmount, duration, smoker } = data;
 
@@ -189,7 +190,7 @@ const navigate = useNavigate();
       </form>
       <div className="flex justify-between items-center pt-4">
         
-            <button onClick={()=>navigate(`/application/${policy._id}`)} className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full">
+            <button onClick={()=>navigate(`/application/${policy._id}`, {state:policy?.title})} className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full">
               Apply For policy
             </button>
     
