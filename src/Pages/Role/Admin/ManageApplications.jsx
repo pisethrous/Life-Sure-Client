@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 
 const ManageApplications = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedApp, setSelectedApp] = useState(null);
+  const [selectedAgents, setSelectedAgents] = useState({}); // Track agent per row
 
-  const { data: applications = [], isLoading } = useQuery({
+  // Fetch applications
+  const {
+    data: applications = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
       const res = await axiosSecure.get("/applications");
@@ -16,7 +23,56 @@ const ManageApplications = () => {
     },
   });
 
+  // Fetch agents
+  const { data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/users");
+      return res.data;
+    },
+  });
+
+  const agents = users.filter(user => user.role === "agent");
+  
   if (isLoading) return <Loading />;
+
+  const handleAssignAgent = async (appId, agentEmail) => {
+    try {
+      const res = await axiosSecure.patch(`/applications/${appId}/assign-agent`, {
+        agentEmail,
+      });
+      if (res.data.modifiedCount > 0) {
+        Swal.fire("Success", "Agent assigned successfully", "success");
+        refetch();
+      }
+    } catch (err) {
+      Swal.fire("Error", "Failed to assign agent", "error");
+    }
+  };
+
+  const handleReject = async (appId) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to reject this application.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, reject it!",
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await axiosSecure.patch(`/applications/${appId}/reject`);
+        if (res.data.modifiedCount > 0) {
+          Swal.fire("Rejected!", "The application has been rejected.", "success");
+          refetch();
+        }
+      } catch (err) {
+        Swal.fire("Error", "Something went wrong", "error");
+      }
+    }
+  };
 
   return (
     <div className="w-full px-4 py-8">
@@ -24,7 +80,7 @@ const ManageApplications = () => {
         Manage Applications
       </h1>
 
-      {/* Responsive Scrollable Table */}
+      {/* Table */}
       <div className="w-full overflow-x-auto rounded-xl shadow">
         <table className="table table-zebra min-w-[1000px] text-sm">
           <thead className="bg-gray-100">
@@ -59,15 +115,50 @@ const ManageApplications = () => {
                     {app.status}
                   </span>
                 </td>
-                <td className="space-x-1 text-center">
+                <td className="space-y-1 text-center">
                   <button
-                    className="btn btn-xs btn-outline btn-secondary"
+                    className="btn btn-xs btn-outline btn-secondary w-full"
                     onClick={() => setSelectedApp(app)}
                   >
                     View Details
                   </button>
-                  <button className="btn btn-xs btn-primary">Assign Agent</button>
-                  <button className="btn btn-xs btn-error">Reject</button>
+
+                  {/* Agent Select */}
+                  <select
+                    className="select select-sm select-bordered w-full"
+                    value={selectedAgents[app._id] || ""}
+                    onChange={(e) =>
+                      setSelectedAgents({
+                        ...selectedAgents,
+                        [app._id]: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Assign Agent</option>
+                    {agents?.map((agent) => (
+                      <option key={agent.email} value={agent.email}>
+                        {agent.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    disabled={!selectedAgents[app._id]}
+                    className="btn btn-xs btn-primary w-full"
+                    onClick={() =>
+                      handleAssignAgent(app._id, selectedAgents[app._id])
+                    }
+                  >
+                    Confirm Assign
+                  </button>
+
+                  {/* Reject */}
+                  <button
+                    className="btn btn-xs btn-error w-full"
+                    onClick={() => handleReject(app._id)}
+                  >
+                    Reject
+                  </button>
                 </td>
               </tr>
             ))}
@@ -99,7 +190,6 @@ const ManageApplications = () => {
                     value && <li key={condition}>{condition}</li>
                 )}
             </ul>
-
             <div className="mt-4 flex justify-end">
               <button
                 className="btn btn-sm"
