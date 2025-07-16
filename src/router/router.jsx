@@ -19,6 +19,8 @@ import AllPolicies from "../Pages/AllPolicies/AllPolicies";
 import PolicyDetails from "../Pages/AllPolicies/PolicyDetails";
 import QuotePage from "../Pages/Quote/QuotePage";
 import ApplicationForm from "../Pages/Application/ApplicationForm";
+import ManageApplications from "../Pages/Role/Admin/ManageApplications";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -78,6 +80,7 @@ export const router = createBrowserRouter([
         { path: "admin/users", Component: ManageUsers },
 
         { path: "admin/managePolicies", Component: ManagePolicies },
+        { path: "admin/manageApplication", Component: ManageApplications },
       ],
     },
     {
