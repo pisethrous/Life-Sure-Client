@@ -20,6 +20,7 @@ import PolicyDetails from "../Pages/AllPolicies/PolicyDetails";
 import QuotePage from "../Pages/Quote/QuotePage";
 import ApplicationForm from "../Pages/Application/ApplicationForm";
 import ManageApplications from "../Pages/Role/Admin/ManageApplications";
+import AgentApplicationForm from "../Pages/ApplyToBeAgent/AgentApplicationForm ";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,12 @@ export const router = createBrowserRouter([
        path:'application/:id',
        element: <PrivateRoute>
       <ApplicationForm></ApplicationForm>
+       </PrivateRoute>
+      },
+      {
+       path:'BeAgent',
+       element: <PrivateRoute>
+      <AgentApplicationForm></AgentApplicationForm>
        </PrivateRoute>
       }
     ],
