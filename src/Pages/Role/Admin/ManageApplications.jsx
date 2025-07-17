@@ -32,15 +32,18 @@ const ManageApplications = () => {
     },
   });
 
-  const agents = users.filter(user => user.role === "agent");
-  
+  const agents = users.filter((user) => user.role === "agent");
+
   if (isLoading) return <Loading />;
 
   const handleAssignAgent = async (appId, agentEmail) => {
     try {
-      const res = await axiosSecure.patch(`/applications/${appId}/assign-agent`, {
-        agentEmail,
-      });
+      const res = await axiosSecure.patch(
+        `/applications/${appId}/assign-agent`,
+        {
+          agentEmail,
+        }
+      );
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success", "Agent assigned successfully", "success");
         refetch();
@@ -51,25 +54,42 @@ const ManageApplications = () => {
   };
 
   const handleReject = async (appId) => {
-    const confirm = await Swal.fire({
-      title: "Are you sure?",
-      text: "You are about to reject this application.",
-      icon: "warning",
+    const { value: feedback } = await Swal.fire({
+      title: "Reject Application",
+      input: "textarea",
+      inputLabel: "Provide rejection reason or feedback",
+      inputPlaceholder: "Type your message here...",
+      inputAttributes: {
+        "aria-label": "Feedback",
+      },
       showCancelButton: true,
+      confirmButtonText: "Submit",
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, reject it!",
+      preConfirm: (feedback) => {
+        if (!feedback) {
+          Swal.showValidationMessage("Feedback is required.");
+        }
+        return feedback;
+      },
     });
 
-    if (confirm.isConfirmed) {
+    if (feedback) {
       try {
-        const res = await axiosSecure.patch(`/applications/${appId}/reject`);
+        const res = await axiosSecure.patch(`/applications/${appId}/reject`, {
+          feedback,
+        });
+
         if (res.data.modifiedCount > 0) {
-          Swal.fire("Rejected!", "The application has been rejected.", "success");
+          Swal.fire(
+            "Rejected",
+            "Application rejected with feedback.",
+            "success"
+          );
           refetch();
         }
       } catch (err) {
-        Swal.fire("Error", "Something went wrong", "error");
+        Swal.fire("Error", "Failed to reject application", "error");
       }
     }
   };
@@ -124,6 +144,7 @@ const ManageApplications = () => {
                   </button>
 
                   {/* Agent Select */}
+                  {/* Assign Agent Select */}
                   <select
                     className="select select-sm select-bordered w-full"
                     value={selectedAgents[app._id] || ""}
@@ -133,6 +154,7 @@ const ManageApplications = () => {
                         [app._id]: e.target.value,
                       })
                     }
+                    disabled={app.status === "rejected" || app.agentEmail}
                   >
                     <option value="">Assign Agent</option>
                     {agents?.map((agent) => (
@@ -142,22 +164,28 @@ const ManageApplications = () => {
                     ))}
                   </select>
 
+                  {/* Confirm Assign Button */}
                   <button
-                    disabled={!selectedAgents[app._id]}
+                    disabled={
+                      !selectedAgents[app._id] ||
+                      app.status === "rejected" ||
+                      app.agentEmail
+                    }
                     className="btn btn-xs btn-primary w-full"
                     onClick={() =>
                       handleAssignAgent(app._id, selectedAgents[app._id])
                     }
                   >
-                    Confirm Assign
+                    {app.agentEmail ? "Agent Assigned" : "Confirm Assign"}
                   </button>
 
                   {/* Reject */}
                   <button
                     className="btn btn-xs btn-error w-full"
                     onClick={() => handleReject(app._id)}
+                    disabled={app.status === "rejected"}
                   >
-                    Reject
+                    {app.status === "rejected" ? "Rejected" : "Reject"}
                   </button>
                 </td>
               </tr>
@@ -171,18 +199,41 @@ const ManageApplications = () => {
         <div className="fixed inset-0 bg-primary bg-opacity-50 flex justify-center items-center z-50 px-4">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full overflow-y-auto max-h-[90vh]">
             <h2 className="text-xl font-semibold mb-4">Application Details</h2>
-            <p><strong>Name:</strong> {selectedApp.name}</p>
-            <p><strong>Email:</strong> {selectedApp.email}</p>
-            <p><strong>Phone:</strong> {selectedApp.phone}</p>
-            <p><strong>DOB:</strong> {selectedApp.dob}</p>
-            <p><strong>Address:</strong> {selectedApp.address}</p>
-            <p><strong>NID:</strong> {selectedApp.nid}</p>
-            <p><strong>Policy:</strong> {selectedApp.policy_name}</p>
-            <p><strong>Status:</strong> {selectedApp.status}</p>
+            <p>
+              <strong>Name:</strong> {selectedApp.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedApp.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {selectedApp.phone}
+            </p>
+            <p>
+              <strong>DOB:</strong> {selectedApp.dob}
+            </p>
+            <p>
+              <strong>Address:</strong> {selectedApp.address}
+            </p>
+            <p>
+              <strong>NID:</strong> {selectedApp.nid}
+            </p>
+            <p>
+              <strong>Policy:</strong> {selectedApp.policy_name}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedApp.status}
+            </p>
             <hr className="my-2" />
-            <p><strong>Nominee:</strong> {selectedApp.nomineeName} ({selectedApp.relationship?.label})</p>
-            <p><strong>Nominee NID:</strong> {selectedApp.nomineeNid}</p>
-            <p className="mt-2"><strong>Health Issues:</strong></p>
+            <p>
+              <strong>Nominee:</strong> {selectedApp.nomineeName} (
+              {selectedApp.relationship?.label})
+            </p>
+            <p>
+              <strong>Nominee NID:</strong> {selectedApp.nomineeNid}
+            </p>
+            <p className="mt-2">
+              <strong>Health Issues:</strong>
+            </p>
             <ul className="list-disc list-inside text-sm">
               {selectedApp.health &&
                 Object.entries(selectedApp.health).map(
