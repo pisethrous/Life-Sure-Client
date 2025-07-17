@@ -29,6 +29,7 @@ const AddPolicyForm = ({ onClose, refetch }) => {
         duration: data.duration,
         basePremium: parseFloat(data.basePremium),
         image: imageUrl,
+         purchaseCount: 0,
       };
 
       const res = await axiosSecure.post("/policies", newPolicy);
