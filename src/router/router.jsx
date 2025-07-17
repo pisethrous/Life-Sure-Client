@@ -21,6 +21,7 @@ import QuotePage from "../Pages/Quote/QuotePage";
 import ApplicationForm from "../Pages/Application/ApplicationForm";
 import ManageApplications from "../Pages/Role/Admin/ManageApplications";
 import AgentApplicationForm from "../Pages/ApplyToBeAgent/AgentApplicationForm ";
+import ManageAgents from "../Pages/Role/Admin/ManageAgents";
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +89,7 @@ export const router = createBrowserRouter([
 
         { path: "admin/managePolicies", Component: ManagePolicies },
         { path: "admin/manageApplication", Component: ManageApplications },
+        { path: "admin/manageAgents", Component: ManageAgents },
       ],
     },
     {

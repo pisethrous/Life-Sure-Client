@@ -11,7 +11,7 @@ import {
   FaUsers,
   FaBlog
 } from 'react-icons/fa';
-import { MdSettingsApplications } from "react-icons/md";
+import { MdOutlineManageAccounts, MdSettingsApplications } from "react-icons/md";
 import Logo from '../../Components/Logo/Logo';
 import useCurrentUser from '../../Hooks/useCurrentUser';
 import Loading from '../../Components/Loading/Loading';
@@ -78,6 +78,12 @@ const DashboardLayout = () => {
                 <NavLink to="/dashboard/admin/manageApplication">
                   <MdSettingsApplications size={20} className="inline-block mr-2" />
                   Manage Application
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/admin/manageAgents">
+                  <MdOutlineManageAccounts size={20} className="inline-block mr-2" />
+                  Manage Agents
                 </NavLink>
               </li>
             </>
