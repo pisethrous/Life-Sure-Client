@@ -80,6 +80,7 @@ const MyPolicies = () => {
       policy: reviewPolicy.policyTitle,
       createdAt: new Date(),
     };
+    console.log(review);
 
     const res = await axiosSecure.post("/reviews", review);
     if (res.data.insertedId) {
