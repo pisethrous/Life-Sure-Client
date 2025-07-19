@@ -26,7 +26,6 @@ const Blogs = () => {
     },
   });
 
-
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: "Delete Blog?",
@@ -64,10 +63,10 @@ const Blogs = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Image</th>
+
               <th>Title</th>
               <th>summary</th>
-
+              <th>Author</th>
               <th>Publish Date</th>
               <th>Actions</th>
             </tr>
@@ -76,16 +75,12 @@ const Blogs = () => {
             {blogs.map((blog, index) => (
               <tr key={blog._id}>
                 <td>{index + 1}</td>
-                <td>
-                  <img
-                    src={blog.image}
-                    alt="blog"
-                    className="w-12 h-12 rounded-md"
-                  />
-                </td>
-                <td>{blog.title}</td>
-                <td className="overflow-hidden whitespace-nowrap text-ellipsis max-w-40" >{blog.content}</td>
 
+                <td>{blog.title}</td>
+                <td className="overflow-hidden whitespace-nowrap text-ellipsis max-w-40">
+                  {blog.content}
+                </td>
+                <td>{blog.author}</td>
                 <td>{new Date(blog.publishDate).toLocaleDateString()}</td>
                 <td>
                   <button

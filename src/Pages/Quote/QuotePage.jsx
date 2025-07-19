@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
@@ -9,14 +9,15 @@ import { useQuery } from "@tanstack/react-query";
 const QuotePage = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // ✅ Fetch the policy using TanStack Query
+  const [quoteData, setQuoteData] = useState(null); // ✅ To preserve quoteData after form submission
+
   const {
     data: policy,
     isLoading,
@@ -28,9 +29,8 @@ const navigate = useNavigate();
       const res = await axiosSecure.get(`/policies/${id}`);
       return res.data;
     },
-    enabled: !!id, // Prevent query from running if ID is undefined
+    enabled: !!id,
   });
-
 
   const onSubmit = (data) => {
     const { age, gender, coverageAmount, duration, smoker } = data;
@@ -44,6 +44,19 @@ const navigate = useNavigate();
     const monthlyPremium =
       basePremium + ageFactor + coverageFactor + durationFactor + smokerFactor;
     const annualPremium = monthlyPremium * 12;
+
+    const calculatedQuote = {
+      age,
+      gender,
+      coverageAmount,
+      duration,
+      smoker,
+      monthlyPremium: Number(monthlyPremium.toFixed(2)),
+      annualPremium: Number(annualPremium.toFixed(2)),
+      basePremium,
+    };
+
+    setQuoteData(calculatedQuote); // ✅ Set to state for use in button below
 
     Swal.fire({
       title: "Estimated Premium",
@@ -80,7 +93,6 @@ const navigate = useNavigate();
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 shadow rounded-xl my-12">
-      {/* Progress Bar */}
       <div className="mb-6">
         <p className="text-sm text-gray-500">Step 1 of 3</p>
         <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
@@ -89,14 +101,13 @@ const navigate = useNavigate();
       </div>
 
       <h1 className="text-3xl font-bold text-center text-accent mb-6">
-     Start Your Quote: Find Your Ideal Policy
+        Start Your Quote: Find Your Ideal Policy
       </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 bg-white p-6 "
+        className="space-y-4 bg-white p-6"
       >
-        {/* Age */}
         <div>
           <label className="label">Age</label>
           <input
@@ -110,7 +121,6 @@ const navigate = useNavigate();
           )}
         </div>
 
-        {/* Gender */}
         <div>
           <label className="label">Gender</label>
           <select
@@ -127,7 +137,6 @@ const navigate = useNavigate();
           )}
         </div>
 
-        {/* Coverage Amount */}
         <div>
           <label className="label">Coverage Amount (৳ )</label>
           <input
@@ -146,7 +155,6 @@ const navigate = useNavigate();
           )}
         </div>
 
-        {/* Duration */}
         <div>
           <label className="label">Duration (Years)</label>
           <input
@@ -163,7 +171,6 @@ const navigate = useNavigate();
           )}
         </div>
 
-        {/* Smoker */}
         <div>
           <label className="label">Are you a smoker?</label>
           <select
@@ -181,19 +188,27 @@ const navigate = useNavigate();
           )}
         </div>
 
-        {/* Submit */}
         <div className="flex justify-between items-center pt-4">
           <button type="submit" className="btn btn-secondary w-full">
             Get Estimate Premium
           </button>
         </div>
       </form>
+
       <div className="flex justify-between items-center pt-4">
-        
-            <button onClick={()=>navigate(`/application/${policy._id}`, {state:policy?.title})} className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full">
-              Apply For policy
-            </button>
-    
+        <button
+          disabled={!quoteData}
+          onClick={() =>
+            navigate(`/application/${policy._id}`, {
+              state: { quoteData, policyTitle: policy.title },
+            })
+          }
+          className={`btn btn-outline btn-primary hover:bg-primary hover:text-white w-full ${
+            !quoteData ? "btn-disabled" : ""
+          }`}
+        >
+          Apply For Policy
+        </button>
       </div>
     </div>
   );
