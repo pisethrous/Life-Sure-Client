@@ -3,19 +3,20 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import useAuthContext from "../../../Hooks/useAuthContext";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 import useTitle from "../../../Hooks/useTitle";
 
-
 const MyPolicies = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [reviewPolicy, setReviewPolicy] = useState(null);
-useTitle("My-policies");
+  useTitle("My-policies");
+
   const { data: myPolicies = [], isLoading } = useQuery({
     queryKey: ["myPolicies", user?.email],
     enabled: !!user?.email,
@@ -27,10 +28,9 @@ useTitle("My-policies");
     },
   });
 
-
+  // ✅ Fix autoTable issue
   const handleDownloadPDF = (policy) => {
-    const doc = new jsPDF();
-      console.log("Has autoTable:", typeof doc.autoTable === "function");
+    const doc = new jsPDF(); // Moved inside
     doc.text("Policy Application Details", 14, 16);
 
     const healthConditions = policy.health
@@ -43,11 +43,10 @@ useTitle("My-policies");
       ? [
           ["Coverage Amount", `৳${policy.quoteData.coverageAmount}`],
           ["Duration", `${policy.quoteData.duration} years`],
-          ["Premium", `৳${policy.quoteData.premium}`],
+          ["Premium", `৳${policy.quoteData.annualPremium} yearly`],
         ]
       : [];
-
-    doc.autoTable({
+    autoTable(doc, {
       startY: 20,
       head: [["Field", "Value"]],
       body: [
@@ -71,6 +70,12 @@ useTitle("My-policies");
     doc.save(`${policy.policyTitle}_Application.pdf`);
   };
 
+  // ✅ Fix modal not reopening
+  const handleViewDetails = (policy) => {
+    setSelectedPolicy(null); // Reset first
+    setTimeout(() => setSelectedPolicy(policy), 50); // Then reassign
+  };
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -85,7 +90,6 @@ useTitle("My-policies");
       policy: reviewPolicy.policyTitle,
       createdAt: new Date(),
     };
-    console.log(review);
 
     const res = await axiosSecure.post("/reviews", review);
     if (res.data.insertedId) {
@@ -135,7 +139,7 @@ useTitle("My-policies");
                 <td>
                   <button
                     className="btn btn-xs btn-outline mr-2"
-                    onClick={() => setSelectedPolicy(policy)}
+                    onClick={() => handleViewDetails(policy)} // ✅ use wrapper
                   >
                     View Details
                   </button>
@@ -236,7 +240,9 @@ useTitle("My-policies");
             )}
 
             <form method="dialog" className="modal-backdrop mt-4">
-              <button className="btn">Close</button>
+              <button className="btn" onClick={() => setSelectedPolicy(null)}>
+                Close
+              </button>
             </form>
           </div>
         </dialog>
@@ -273,7 +279,9 @@ useTitle("My-policies");
               </button>
             </form>
             <form method="dialog" className="modal-backdrop mt-4">
-              <button className="btn">Close</button>
+              <button className="btn" onClick={() => setReviewPolicy(null)}>
+                Close
+              </button>
             </form>
           </div>
         </dialog>

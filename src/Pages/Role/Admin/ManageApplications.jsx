@@ -4,7 +4,8 @@ import { format } from "date-fns";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
-import useTitle from '../../Hooks/useTitle';
+import useTitle from "../../../Hooks/useTitle";
+
 const ManageApplications = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedApp, setSelectedApp] = useState(null);
