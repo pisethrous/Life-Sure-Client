@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 import useAuthContext from "../../../Hooks/useAuthContext";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -15,6 +16,9 @@ const MyPolicies = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [reviewPolicy, setReviewPolicy] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [hasReviewed, setHasReviewed] = useState(false);
+
   useTitle("My-policies");
 
   const { data: myPolicies = [], isLoading } = useQuery({
@@ -94,6 +98,7 @@ const MyPolicies = () => {
     const res = await axiosSecure.post("/reviews", review);
     if (res.data.insertedId) {
       Swal.fire("Success", "Review submitted", "success");
+      setHasReviewed(true);
       form.reset();
       setReviewPolicy(null);
     }
@@ -147,8 +152,9 @@ const MyPolicies = () => {
                     <button
                       className="btn btn-xs btn-primary"
                       onClick={() => setReviewPolicy(policy)}
+                      disabled={hasReviewed}
                     >
-                      Give Review
+                      {hasReviewed ? "Review Submitted" : "Submit Review"}
                     </button>
                   )}
                 </td>
@@ -254,17 +260,28 @@ const MyPolicies = () => {
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-2">⭐ Submit Review</h3>
             <form onSubmit={handleReviewSubmit} className="space-y-4">
+              {/* ⭐️ Star Rating UI using react-icons */}
               <div>
-                <label className="block mb-1">Rating (1–5)</label>
-                <input
-                  type="number"
-                  name="rating"
-                  min="1"
-                  max="5"
-                  required
-                  className="input input-bordered w-full"
-                />
+                <label className="block mb-1">Rating</label>
+                <div className="flex space-x-1">
+                  {[1, 2, 3, 4, 5].map((star) =>
+                    star <= rating ? (
+                      <FaStar
+                        key={star}
+                        onClick={() => setRating(star)}
+                        className="text-yellow-400 w-6 h-6 cursor-pointer transition-transform hover:scale-110"
+                      />
+                    ) : (
+                      <FaRegStar
+                        key={star}
+                        onClick={() => setRating(star)}
+                        className="text-gray-400 w-6 h-6 cursor-pointer transition-transform hover:scale-110"
+                      />
+                    )
+                  )}
+                </div>
               </div>
+              <input type="hidden" name="rating" value={rating} />{" "}
               <div>
                 <label className="block mb-1">Feedback</label>
                 <textarea
