@@ -4,12 +4,12 @@ import { format } from "date-fns";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
-
+import useTitle from '../../Hooks/useTitle';
 const ManageApplications = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedApp, setSelectedApp] = useState(null);
   const [selectedAgents, setSelectedAgents] = useState({}); // Track agent per row
-
+useTitle("Manage-application");
   // Fetch applications
   const {
     data: applications = [],

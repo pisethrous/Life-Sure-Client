@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
+import useTitle from "../../Hooks/useTitle";
 
 const QuotePage = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const QuotePage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+useTitle("Quote");
   const [quoteData, setQuoteData] = useState(null); // ✅ To preserve quoteData after form submission
 
   const {

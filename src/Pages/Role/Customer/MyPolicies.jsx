@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+
 import useAuthContext from "../../../Hooks/useAuthContext";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
+import useTitle from "../../../Hooks/useTitle";
+
 
 const MyPolicies = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [reviewPolicy, setReviewPolicy] = useState(null);
-
+useTitle("My-policies");
   const { data: myPolicies = [], isLoading } = useQuery({
     queryKey: ["myPolicies", user?.email],
     enabled: !!user?.email,
@@ -24,8 +27,10 @@ const MyPolicies = () => {
     },
   });
 
+
   const handleDownloadPDF = (policy) => {
     const doc = new jsPDF();
+      console.log("Has autoTable:", typeof doc.autoTable === "function");
     doc.text("Policy Application Details", 14, 16);
 
     const healthConditions = policy.health

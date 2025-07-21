@@ -5,11 +5,12 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuthContext from "../../../Hooks/useAuthContext";
 import Loading from "../../../Components/Loading/Loading";
+import useTitle from "../../../Hooks/useTitle";
 
 const AssignedCustomers = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
-
+useTitle("Assigned-customer");
   const {
     data: applications = [],
     isLoading,

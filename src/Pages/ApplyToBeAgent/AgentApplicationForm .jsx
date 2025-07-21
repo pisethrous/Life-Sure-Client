@@ -4,13 +4,14 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import Loading from "../../Components/Loading/Loading";
+import useTitle from "../../Hooks/useTitle";
 
 const AgentApplicationForm = () => {
   const axiosSecure = useAxiosSecure();
 
 const {user,isLoading} = useCurrentUser();
-console.log(user.name,user.email,user.role);
 
+useTitle("Agent-Apply");
   const [hasApplied, setHasApplied] = useState(false);
 
   const {

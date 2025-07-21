@@ -6,13 +6,14 @@ import Loading from "../../../Components/Loading/Loading";
 import Swal from "sweetalert2";
 import CreateBlogForm from "./CreateBlogForm";
 import EditBlogForm from "./EditBlogForm";
+import useTitle from "../../../Hooks/useTitle";
 
 const Blogs = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuthContext();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
-
+useTitle("Blogs");
   const {
     data: blogs = [],
     isLoading,
