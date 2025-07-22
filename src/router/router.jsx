@@ -22,6 +22,7 @@ import ApplicationForm from "../Pages/Application/ApplicationForm";
 import ManageApplications from "../Pages/Role/Admin/ManageApplications";
 import AgentApplicationForm from "../Pages/ApplyToBeAgent/AgentApplicationForm ";
 import ManageAgents from "../Pages/Role/Admin/ManageAgents";
+import PaymentPage from "../Pages/Role/Customer/PaymentPage";
 
 export const router = createBrowserRouter([
   {
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
       children: [
         { path: "customer/mypolicies", Component: MyPolicies },
         { path: "customer/payments", Component: Payments },
+        { path: "customer/pay/:id", Component: PaymentPage },
       ],
     },
   ],

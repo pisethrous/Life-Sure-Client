@@ -10,6 +10,8 @@ import useTitle from "../../../Hooks/useTitle";
 const AssignedCustomers = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
+  const now = new Date();
+const dueDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 useTitle("Assigned-customer");
   const {
     data: applications = [],
@@ -29,6 +31,7 @@ useTitle("Assigned-customer");
       await axiosSecure.patch(`/applications/status/${id}`, {
         status: newStatus,
         policy_name: policyName, // for increasing purchase count
+        dueDate
    
       });
       Swal.fire("Success", "Status updated", "success");
