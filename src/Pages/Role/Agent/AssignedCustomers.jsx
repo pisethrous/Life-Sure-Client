@@ -29,6 +29,7 @@ useTitle("Assigned-customer");
       await axiosSecure.patch(`/applications/status/${id}`, {
         status: newStatus,
         policy_name: policyName, // for increasing purchase count
+   
       });
       Swal.fire("Success", "Status updated", "success");
       refetch();
@@ -62,7 +63,7 @@ useTitle("Assigned-customer");
                 <td>{idx + 1}</td>
                 <td>{app.name}</td>
                 <td>{app.email}</td>
-                <td>{app.policy_name}</td>
+                <td>{app.policyTitle}</td>
                 <td>
                   <select
                     className="select select-bordered select-sm"

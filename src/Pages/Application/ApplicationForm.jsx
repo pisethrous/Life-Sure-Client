@@ -46,6 +46,7 @@ const ApplicationForm = () => {
       policyTitle,
       quoteData,
       status: "Pending",
+      paymentStatus: "due"
     };
 
     try {
