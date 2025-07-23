@@ -19,8 +19,8 @@ const {user,logoutUser}=useAuthContext();
     <>
       <li><NavLink to="/">Home</NavLink></li>
       <li><NavLink to="/allPolicies">All Policies</NavLink></li>
-      <li><NavLink to="/about">Agent</NavLink></li>
-      <li><NavLink to="/contact">FAQS</NavLink></li>
+  
+      <li><NavLink to="/faqs">FAQS</NavLink></li>
       <li><NavLink to="/beAgent">Be a Agent</NavLink></li>
       <li><NavLink to="/dashboard">Dashboard</NavLink></li>
     </>

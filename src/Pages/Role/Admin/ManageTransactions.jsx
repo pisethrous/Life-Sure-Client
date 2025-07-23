@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import useTitle from "../../../Hooks/useTitle";
 
 const ManageTransactions = () => {
   const axiosSecure = useAxiosSecure();
-
+useTitle("ManageTransTransactions");
   const { data: transactions = [], isLoading, error } = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {

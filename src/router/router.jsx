@@ -25,6 +25,7 @@ import ManageAgents from "../Pages/Role/Admin/ManageAgents";
 import PaymentPage from "../Pages/Role/Customer/PaymentPage";
 import ClaimRequest from "../Pages/Role/Customer/ClaimRequest";
 import ManageTransactions from "../Pages/Role/Admin/ManageTransactions";
+import Faqs from "../Pages/Faqs/Faqs";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path:'allPolicies',
         Component: AllPolicies
+      },
+      {
+        path:'faqs',
+        Component: Faqs
       },
       {
         path:'policies/:id',
