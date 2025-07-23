@@ -91,9 +91,24 @@ const amountInCents = Math.round(usdAmount * 100);
     });
     if (result.error) {
       console.log(result.error.message);
+
+
+      await AxiosSecure.post("/payment-history", {
+  userEmail: user.email,
+  userName: user.displayName,
+  policyTitle: application.policyTitle,
+  amount: bdtAmount,
+  frequency: "monthly",
+  paidAt: new Date(),
+  TransitionId: application._id,
+  status: "failed",
+  errorMessage: result.error.message, 
+});
+toast.error("❌ Payment failed");
+
     } else {
       if (result.paymentIntent.status === "succeeded") {
-        console.log("payment succeed!");
+
         const paymentData = {
           userEmail: user.email,
           UserName: user.displayName,
@@ -102,11 +117,9 @@ const amountInCents = Math.round(usdAmount * 100);
           frequency: "monthly",
           paidAt: new Date(),
           TransitionId: application._id,
+          status:"success"
         };
-        if (!application._id) {
-  toast.error("Invalid application ID");
-  return;
-}
+      
       
         await AxiosSecure.patch(`/applications/pay/${application._id}`);
         await AxiosSecure.post("/payment-history", paymentData);
