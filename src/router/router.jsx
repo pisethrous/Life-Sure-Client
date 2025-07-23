@@ -28,6 +28,7 @@ import ManageTransactions from "../Pages/Role/Admin/ManageTransactions";
 import Faqs from "../Pages/Faqs/Faqs";
 import BlogList from "../Pages/BlogPage/BlogList";
 import BlogDetails from "../Pages/BlogPage/BlogDetails";
+import UserProfile from "../Pages/UserProfile/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +101,10 @@ export const router = createBrowserRouter([
       <DashboardLayout></DashboardLayout>
     </PrivateRoute>,
    children: [
+    {
+  path: 'profile',
+  element: <UserProfile />
+},
     {
       element: <RoleRoute allowedRole="admin" />,
       children: [

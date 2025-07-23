@@ -1,21 +1,22 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router'; // ✅ fixed import
+import React from "react";
+import { NavLink, Outlet } from "react-router"; // ✅ fixed import
 import {
   FaHome,
   FaBoxOpen,
   FaMoneyCheckAlt,
   FaUserEdit,
- 
   FaUserCheck,
-
   FaUsers,
-  FaBlog
-} from 'react-icons/fa';
-import { MdOutlineManageAccounts, MdSettingsApplications } from "react-icons/md";
+  FaBlog,
+} from "react-icons/fa";
+import {
+  MdOutlineManageAccounts,
+  MdSettingsApplications,
+} from "react-icons/md";
 import { TbTransactionDollar } from "react-icons/tb";
-import Logo from '../../Components/Logo/Logo';
-import useCurrentUser from '../../Hooks/useCurrentUser';
-import Loading from '../../Components/Loading/Loading';
+import Logo from "../../Components/Logo/Logo";
+import useCurrentUser from "../../Hooks/useCurrentUser";
+import Loading from "../../Components/Loading/Loading";
 
 const DashboardLayout = () => {
   const { user, isLoading } = useCurrentUser();
@@ -29,14 +30,23 @@ const DashboardLayout = () => {
         {/* Navbar */}
         <div className="navbar bg-base-300 w-full lg:hidden">
           <div className="flex-none">
-            <label htmlFor="my-drawer-2" aria-label="open sidebar" className="btn btn-square btn-ghost">
+            <label
+              htmlFor="my-drawer-2"
+              aria-label="open sidebar"
+              className="btn btn-square btn-ghost"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 className="inline-block h-6 w-6 stroke-current"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </label>
           </div>
@@ -49,9 +59,26 @@ const DashboardLayout = () => {
 
       {/* Sidebar */}
       <div className="drawer-side">
-        <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
+        <label
+          htmlFor="my-drawer-2"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 space-y-2">
-          <Logo />
+          <div className="flex items-center gap-4">
+            <Logo />
+             <span
+             
+                  className={`badge badge-md text-white ${
+                    user.role === 'admin' ? 'badge-error' :
+                    user.role === 'agent' ? 'badge-info' :
+                    user.role === 'customer' ? 'badge-success' :
+                    'badge-neutral'
+                  }`}
+                >
+                  {user.role}
+                </span>
+          </div>
 
           <li>
             <NavLink to="/dashboard">
@@ -59,9 +86,15 @@ const DashboardLayout = () => {
               Dashboard Home
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/dashboard/profile">
+              <MdOutlineManageAccounts className="inline-block mr-2" />
+              My Profile 
+            </NavLink>
+          </li>
 
           {/* 👉 Admin Links */}
-          {user.role === 'admin' && (
+          {user.role === "admin" && (
             <>
               <li>
                 <NavLink to="/dashboard/admin/users">
@@ -77,19 +110,28 @@ const DashboardLayout = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/admin/manageApplication">
-                  <MdSettingsApplications size={20} className="inline-block mr-2" />
+                  <MdSettingsApplications
+                    size={20}
+                    className="inline-block mr-2"
+                  />
                   Manage Application
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/admin/ManageTransactions">
-                  <TbTransactionDollar size={20} className="inline-block mr-2" />
-                 Manage Transactions
+                  <TbTransactionDollar
+                    size={20}
+                    className="inline-block mr-2"
+                  />
+                  Manage Transactions
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/admin/manageAgents">
-                  <MdOutlineManageAccounts size={20} className="inline-block mr-2" />
+                  <MdOutlineManageAccounts
+                    size={20}
+                    className="inline-block mr-2"
+                  />
                   Manage Agents
                 </NavLink>
               </li>
@@ -97,7 +139,7 @@ const DashboardLayout = () => {
           )}
 
           {/* 👉 Agent Links */}
-          {user.role === 'agent' && (
+          {user.role === "agent" && (
             <>
               <li>
                 <NavLink to="/dashboard/agent/customers">
@@ -115,7 +157,7 @@ const DashboardLayout = () => {
           )}
 
           {/* 👉 Customer Links */}
-          {user.role === 'customer' && (
+          {user.role === "customer" && (
             <>
               <li>
                 <NavLink to="/dashboard/customer/mypolicies">
