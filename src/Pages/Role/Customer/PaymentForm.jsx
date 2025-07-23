@@ -1,16 +1,13 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router"; 
+import { useParams, useNavigate } from "react-router";
 import useTitle from "../../../Hooks/useTitle";
 import useAuthContext from "../../../Hooks/useAuthContext";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../Components/Loading/Loading";
-
-
-
-
+import toast from "react-hot-toast";
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -33,24 +30,31 @@ const PaymentForm = () => {
   const [Error, setError] = useState("");
   const navigate = useNavigate(); // ✅ Added
   useTitle("Payment");
-  const { id } = useParams();
- 
+  const {id} = useParams();
+
   const { user } = useAuthContext();
 
   const AxiosSecure = useAxiosSecure();
-const {data:application = {},isPending}=useQuery({
-    queryKey:["applications",id],
-    queryFn: async () =>{
-        const res = await AxiosSecure.get(`/applications/${id}`);
-        return res.data;
-    }
-})
-console.log(application);
-const amount = application?.quoteData?.coverageAmount;
+  const { data: application = {}, isPending } = useQuery({
+    queryKey: ["applications", id],
+    queryFn: async () => {
+      const res = await AxiosSecure.get(`/applications/${id}`);
+      return res.data;
+    },
+  });
+  console.log(application);
 
-const amountInCents = amount/100;
+  const bdtAmount = application?.quoteData?.monthlyPremium; 
+const exchangeRate = 117;
 
-isPending && <Loading></Loading>
+const usdAmount = bdtAmount / exchangeRate; 
+
+
+const amountInCents = Math.round(usdAmount * 100); 
+
+
+
+  isPending && <Loading></Loading>;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,7 +64,7 @@ isPending && <Loading></Loading>
     const card = elements.getElement(CardElement);
     if (!card) return;
 
-    const {paymentMethod, error } = await stripe.createPaymentMethod({
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
@@ -69,43 +73,57 @@ isPending && <Loading></Loading>
       setError(error);
     } else {
       setError("");
-      console.log('[PaymentMethod]', paymentMethod);
-     
-
-
-    
+      console.log("[PaymentMethod]", paymentMethod);
     }
-    const res = await AxiosSecure.post('/create-payment-intent',{
+    const res = await AxiosSecure.post("/create-payment-intent", {
       amountInCents,
-       id
-    })
+      id,
+    });
     const clientSecret = res.data.clientSecret;
-const result = await stripe.confirmCardPayment(clientSecret,{
-    payment_method:{
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
         card: elements.getElement(CardElement),
-        billing_details:{
-            name: user.displayName,
-            email:user.email
-        }
-    }
-});
-if (result.error){
-    console.log(result.error.message);
+        billing_details: {
+          name: user.displayName,
+          email: user.email,
+        },
+      },
+    });
+    if (result.error) {
+      console.log(result.error.message);
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        console.log("payment succeed!");
+        const paymentData = {
+          userEmail: user.email,
+          policyTitle: application.policyTitle,
+          amount: bdtAmount,
+          frequency: "monthly",
+          paidAt: new Date(),
+          TransitionId: application._id,
+        };
+        if (!application._id) {
+  toast.error("Invalid application ID");
+  return;
 }
-else {
-    if(result.paymentIntent.status==='succeeded'){
-        console.log('payment succeed!');
+      
+        await AxiosSecure.patch(`/applications/pay/${application._id}`);
+        await AxiosSecure.post("/payment-history", paymentData);
+        toast.success("✅ Payment successful!");
+
+        // ✅ Redirect after short delay
+        setTimeout(() => {
+          navigate("/dashboard/customer/payments");
+        }, 1500);
+      }
     }
-}
-
-
-
-
   };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Pay for the {application.policyTitle}</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Pay for the {application.policyTitle}
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="border rounded p-3">
           <CardElement options={CARD_ELEMENT_OPTIONS} />
@@ -115,8 +133,7 @@ else {
           disabled={!stripe}
           className="w-full bg-primary/80 text-black  py-2 px-4 rounded hover:bg-primary disabled:opacity-50"
         >
-          Pay { amount
-} Tk
+          Pay {bdtAmount} Tk
         </button>
         {Error && <p className="text-sm text-red-500">{Error.message}</p>}
       </form>

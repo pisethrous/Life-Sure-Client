@@ -16,7 +16,7 @@ const QuotePage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-useTitle("Quote");
+  useTitle("Quote");
   const [quoteData, setQuoteData] = useState(null); // ✅ To preserve quoteData after form submission
 
   const {
