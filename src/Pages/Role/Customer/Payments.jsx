@@ -69,8 +69,9 @@ const approvedApplications = (applications || []).filter(app => app.status === "
                   <td>
                     <Link state={{ policyTitle: app.policyTitle, amount: amount }} to={`/dashboard/customer/pay/${app._id} ` }>
                       <button
-                        className="btn btn-sm btn-primary"
+                        className="btn btn-sm btn-primary "
                         disabled={isPaid}
+                      
                       >
                         Make Payment
                       </button>

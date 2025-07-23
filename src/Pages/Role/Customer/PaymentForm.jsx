@@ -96,6 +96,7 @@ const amountInCents = Math.round(usdAmount * 100);
         console.log("payment succeed!");
         const paymentData = {
           userEmail: user.email,
+          UserName: user.displayName,
           policyTitle: application.policyTitle,
           amount: bdtAmount,
           frequency: "monthly",
