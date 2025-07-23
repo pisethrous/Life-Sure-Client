@@ -24,6 +24,7 @@ import AgentApplicationForm from "../Pages/ApplyToBeAgent/AgentApplicationForm "
 import ManageAgents from "../Pages/Role/Admin/ManageAgents";
 import PaymentPage from "../Pages/Role/Customer/PaymentPage";
 import ClaimRequest from "../Pages/Role/Customer/ClaimRequest";
+import ManageTransactions from "../Pages/Role/Admin/ManageTransactions";
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
         { path: "admin/managePolicies", Component: ManagePolicies },
         { path: "admin/manageApplication", Component: ManageApplications },
         { path: "admin/manageAgents", Component: ManageAgents },
+        { path: "admin/ManageTransactions", Component: ManageTransactions },
       ],
     },
     {
