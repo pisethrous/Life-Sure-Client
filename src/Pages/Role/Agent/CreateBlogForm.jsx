@@ -19,8 +19,10 @@ const CreateBlogForm = ({ onClose, refetch }) => {
         title: data.title,
         content: data.content,
         author: user.displayName || "Agent",
+        authorImage:user.photoURL,
         authorEmail: user.email ,
         image: imageUrl,
+         totalVisit: 0,
         publishDate: new Date().toISOString(),
       };
 

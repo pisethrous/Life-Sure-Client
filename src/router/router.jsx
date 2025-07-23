@@ -26,6 +26,8 @@ import PaymentPage from "../Pages/Role/Customer/PaymentPage";
 import ClaimRequest from "../Pages/Role/Customer/ClaimRequest";
 import ManageTransactions from "../Pages/Role/Admin/ManageTransactions";
 import Faqs from "../Pages/Faqs/Faqs";
+import BlogList from "../Pages/BlogPage/BlogList";
+import BlogDetails from "../Pages/BlogPage/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ export const router = createBrowserRouter([
       {
         path:'faqs',
         Component: Faqs
+      },
+      {
+        path:'blogs',
+        Component: BlogList
+      },
+      {
+        path:'blogs/:id',
+        Component: BlogDetails
       },
       {
         path:'policies/:id',
