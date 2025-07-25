@@ -201,7 +201,7 @@ const QuotePage = () => {
           disabled={!quoteData}
           onClick={() =>
             navigate(`/application/${policy._id}`, {
-              state: { quoteData, policyTitle: policy.title },
+              state: { quoteData, policyTitle: policy.title,policyId:policy.id },
             })
           }
           className={`btn btn-outline btn-primary hover:bg-primary hover:text-white w-full ${

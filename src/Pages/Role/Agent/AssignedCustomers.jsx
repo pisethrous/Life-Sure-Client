@@ -11,8 +11,8 @@ const AssignedCustomers = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const now = new Date();
-const dueDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-useTitle("Assigned-customer");
+  const dueDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  useTitle("Assigned-customer");
   const {
     data: applications = [],
     isLoading,
@@ -25,14 +25,13 @@ useTitle("Assigned-customer");
       return res.data;
     },
   });
-
-  const handleStatusChange = async (id, newStatus, policyName) => {
+  console.log(applications);
+  const handleStatusChange = async (id, newStatus, policyId) => {
     try {
       await axiosSecure.patch(`/applications/status/${id}`, {
         status: newStatus,
-        policy_name: policyName, // for increasing purchase count
-        dueDate
-   
+        policyId,
+        dueDate,
       });
       Swal.fire("Success", "Status updated", "success");
       refetch();
@@ -71,12 +70,12 @@ useTitle("Assigned-customer");
                   <select
                     className="select select-bordered select-sm"
                     value={app.status}
-                    disabled={app.status !== "pending"} 
+                    disabled={app.status !== "pending"}
                     onChange={(e) =>
                       handleStatusChange(
                         app._id,
                         e.target.value,
-                        app.policy_name
+                        app.policyId
                       )
                     }
                   >

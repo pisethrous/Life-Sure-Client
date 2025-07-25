@@ -4,7 +4,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import Select from "react-select";
 import useAuthContext from "../../Hooks/useAuthContext";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const relationships = [
   { value: "Spouse", label: "Spouse" },
@@ -31,8 +31,8 @@ const ApplicationForm = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuthContext();
   const { state } = useLocation();
-  const { quoteData, policyTitle } = state || {};
-
+  const { quoteData, policyTitle,policyId } = state || {};
+const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -44,6 +44,7 @@ const ApplicationForm = () => {
     const applicationData = {
       ...data,
       policyTitle,
+      policyId,
       quoteData,
       status: "Pending",
       paymentStatus: "due"
@@ -53,6 +54,7 @@ const ApplicationForm = () => {
       const res = await axiosSecure.post("/applications", applicationData);
       if (res.data.insertedId) {
         Swal.fire("Success", "Application submitted successfully!", "success");
+        navigate('/dashboard/customer/mypolicies');
       }
     } catch (error) {
       Swal.fire("Error", "Failed to submit application", "error");
