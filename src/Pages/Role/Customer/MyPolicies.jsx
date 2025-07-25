@@ -89,11 +89,13 @@ const MyPolicies = () => {
     const review = {
       name: user.displayName,
       email: user.email,
+      photo:user.photoURL,
       rating,
       message,
       policy: reviewPolicy.policyTitle,
       createdAt: new Date(),
     };
+  
 
     const res = await axiosSecure.post("/reviews", review);
     if (res.data.insertedId) {
