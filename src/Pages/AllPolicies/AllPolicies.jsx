@@ -2,32 +2,28 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import debounce from "lodash/debounce";
-
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const AllPolicies = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
-  const [search, setSearch] = useState(""); // debounced value
+  const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-
-  // Reset page on filter/search change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, category]);
 
-  // 🔁 Debounce the search input
   const debouncedSearch = useMemo(
     () =>
       debounce((value) => {
         setSearch(value);
-      }, 1000),
+      }, 800),
     []
   );
 
@@ -36,7 +32,6 @@ const navigate = useNavigate();
     debouncedSearch(e.target.value);
   };
 
-  // Fetch data
   const { data: policies = [], isLoading } = useQuery({
     queryKey: ["policies", search, category],
     queryFn: async () => {
@@ -47,7 +42,6 @@ const navigate = useNavigate();
     },
   });
 
-  // Paginate filtered results
   const totalPages = Math.ceil(policies.length / itemsPerPage);
   const currentItems = policies.slice(
     (currentPage - 1) * itemsPerPage,
@@ -61,25 +55,24 @@ const navigate = useNavigate();
   if (isLoading) return <Loading />;
 
   return (
-    <div className="px-4 py-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center text-accent">
-        Explore Insurance Policies
+    <div className="px-4 py-10 max-w-6xl mx-auto">
+      <h1 className="text-4xl font-extrabold text-center text-accent mb-8">
+        🔍 Explore Insurance Policies
       </h1>
 
-      {/* 🔍 Search + Filter */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+      {/* Search & Filter */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
         <input
           type="text"
-          placeholder="Search by title or category"
+          placeholder="Search by title or category..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="input input-bordered w-full md:w-1/2"
+          className="input input-bordered w-full md:w-1/2 focus:outline-none"
         />
-
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="select select-bordered"
+          className="select select-bordered w-full md:w-1/3"
         >
           <option value="">All Categories</option>
           <option value="Term Life">Term Life</option>
@@ -89,50 +82,53 @@ const navigate = useNavigate();
         </select>
       </div>
 
-      {/* 📋 Policy Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {currentItems.map((policy) => (
+      {/* Policies Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {currentItems.map((policy, i) => (
           <motion.div
             key={policy._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="card bg-white shadow-xl rounded-2xl overflow-hidden relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: i * 0.05 }}
+            className="card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 relative group"
           >
-            <figure className="h-48">
+            <figure className="h-48 overflow-hidden">
               <img
                 src={policy.image}
                 alt={policy.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </figure>
-            <div className="card-body">
-              <h2 className="card-title text-lg">{policy.title}</h2>
-              <p className="text-sm bg-accent text-white rounded-lg p-1 -mt-10 hover:scale-105 absolute">
+
+            <div className="card-body relative">
+              <span className="absolute top-4 right-4 bg-accent text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">
                 {policy.category}
+              </span>
+
+              <h2 className="card-title text-lg font-semibold">{policy.title}</h2>
+              <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                {policy.description}
               </p>
-              <p className="text-sm mt-2 line-clamp-2">{policy.description}</p>
-              <div className="card-actions mt-4 ">
-                <button onClick={()=>navigate(`/policies/${policy._id}`)}
-                  className="btn w-full bg-secondary text-white 
-                  hover:translate-x-2 
-                   hover:duration-75 
-                   transition-all 
-                   ease-in-out 
-                   hover:bg-gradient-to-r from-primary/25 to-secondary/100"
+
+              <div className="card-actions mt-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate(`/policies/${policy._id}`)}
+                  className="btn w-full bg-secondary text-white hover:bg-gradient-to-r from-primary/70 to-secondary/100 transition-all duration-300"
                 >
                   View Details
-                </button>
+                </motion.button>
               </div>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* 🔢 Pagination */}
-      <div className="flex justify-center mt-8 space-x-2">
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-10 gap-2">
         <button
-          className="btn btn-sm"
+          className="btn btn-sm btn-outline"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -141,16 +137,16 @@ const navigate = useNavigate();
         {[...Array(totalPages)].map((_, i) => (
           <button
             key={i}
+            onClick={() => handlePageChange(i + 1)}
             className={`btn btn-sm ${
               currentPage === i + 1 ? "btn-primary" : "btn-outline"
             }`}
-            onClick={() => handlePageChange(i + 1)}
           >
             {i + 1}
           </button>
         ))}
         <button
-          className="btn btn-sm"
+          className="btn btn-sm btn-outline"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
