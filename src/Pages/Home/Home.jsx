@@ -5,6 +5,7 @@ import LifeSureBenefits from '../../Components/LifeSureBenefits/LifeSureBenefits
 import CustomerReviews from './CustomerReviews/CustomerReviews';
 import LatestBlogs from './LatestBlogs/LatestBlogs';
 import NewsletterForm from './NewStaller/NewsletterForm ';
+import MeetOurAgents from './MeetAgents/MeetOurAgents';
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ useTitle("Home");
             <LifeSureBenefits></LifeSureBenefits>
             <CustomerReviews></CustomerReviews>
             <LatestBlogs></LatestBlogs>
+            <MeetOurAgents></MeetOurAgents>
             <NewsletterForm></NewsletterForm>
          
         </div>
