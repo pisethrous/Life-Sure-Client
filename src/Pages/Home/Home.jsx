@@ -4,6 +4,8 @@ import PopularPolicies from '../PopularPolicies/PopularPolicies';
 import LifeSureBenefits from '../../Components/LifeSureBenefits/LifeSureBenefits';
 import CustomerReviews from './CustomerReviews/CustomerReviews';
 import LatestBlogs from './LatestBlogs/LatestBlogs';
+import NewsletterForm from './NewStaller/NewsletterForm ';
+
 
 const Home = () => {
 useTitle("Home");
@@ -14,6 +16,7 @@ useTitle("Home");
             <LifeSureBenefits></LifeSureBenefits>
             <CustomerReviews></CustomerReviews>
             <LatestBlogs></LatestBlogs>
+            <NewsletterForm></NewsletterForm>
          
         </div>
     );
