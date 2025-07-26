@@ -6,7 +6,8 @@ import { FaQuoteLeft } from "react-icons/fa";
 import "./SwipperCustom.css"; // Optional: custom styles
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-
+import Loading from "../../../Components/Loading/Loading";
+import { Stars } from "./Stars";
 
 const CustomerReviews = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,12 +20,13 @@ const CustomerReviews = () => {
         id: r._id,
         user_photoURL: r.photo,
         userName: r.name,
-        review: r.message,
+        review: r.message.slice(0, 90),
+        rating: parseFloat(r.rating),
       }));
     },
   });
 
-  if (isLoading) return <p className="text-center py-10">Loading reviews...</p>;
+  if (isLoading) return <Loading></Loading>;
 
   return (
     <section className="py-10 bg-base-100 my-12">
@@ -51,7 +53,7 @@ const CustomerReviews = () => {
           <SwiperSlide key={item.id} className="review-slide">
             <div className="bg-white shadow-xl px-6 py-8 rounded-xl text-center transition-all duration-300">
               <FaQuoteLeft className="text-2xl text-primary mb-4 opacity-30" />
-              <p className="text-gray-700 mb-6 text-sm">{item.review}</p>
+            
               <div className="flex flex-col items-center">
                 <img
                   src={item.user_photoURL}
@@ -60,6 +62,8 @@ const CustomerReviews = () => {
                 />
                 <p className="font-bold text-primary">{item.userName}</p>
                 <p className="text-sm text-gray-500">Customer</p>
+                <Stars rating={item.rating} />
+                  <p className="text-gray-700 mb-6 text-sm">{item.review}...</p>
               </div>
             </div>
           </SwiperSlide>
