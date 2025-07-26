@@ -57,9 +57,7 @@ const navigate = useNavigate();
                 className="w-8 h-8 rounded-full"
               />
               <span className="text-sm font-medium">{blog.author}</span>
-              <span className="badge badge-accent text-white text-xs ml-2">
-                Insurance Agent
-              </span>
+            
             </div>
             <p className="text-xs text-gray-400 mb-2">
               Published: {moment(blog.publishDate).format("MMM D, YYYY")}
