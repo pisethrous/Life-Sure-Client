@@ -29,6 +29,7 @@ import Faqs from "../Pages/Faqs/Faqs";
 import BlogList from "../Pages/BlogPage/BlogList";
 import BlogDetails from "../Pages/BlogPage/BlogDetails";
 import UserProfile from "../Pages/UserProfile/UserProfile";
+import DashHome from "../Layout/DashboardLayout/DashHome";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
       <DashboardLayout></DashboardLayout>
     </PrivateRoute>,
    children: [
+   {
+      index: true, 
+      element: <DashHome />
+    },
     {
   path: 'profile',
   element: <UserProfile />

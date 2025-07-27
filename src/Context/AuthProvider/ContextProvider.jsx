@@ -12,12 +12,13 @@ import {
 import { auth } from "../../Firebase/Firebase.config";
 import Swal from "sweetalert2";
 import { Context } from "./Context";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
+import axios from "axios";
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const axiosSecure = useAxiosSecure();
+ 
   const provider = new GoogleAuthProvider();
   // createUser
 
@@ -71,7 +72,7 @@ const ContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
        setUser(currentUser);
       if (currentUser?.email) {
-        axiosSecure.post('/jwt',{email:currentUser?.email}).then(res=>localStorage.setItem('token',res.data.Token))
+        axios.post('http://localhost:5000/jwt',{email:currentUser?.email}).then(res=>localStorage.setItem('token',res.data.Token))
        
       }
       else{
