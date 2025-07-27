@@ -3,20 +3,27 @@ import { useEffect } from "react";
 
 const useAxiosSecure = () => {
   const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000", // your backend base URL
-    withCredentials: true,            // allows sending cookies (for JWT later)
+    baseURL: "http://localhost:5000",
+    withCredentials: true,
   });
 
-  // Optional: you can add interceptors here for token headers
   useEffect(() => {
-    axiosSecure.interceptors.response.use(
-      (res) => res,
-      (err) => {
-        console.error("Axios error:", err.response?.data || err.message);
-        return Promise.reject(err);
-      }
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
     );
-  }, [axiosSecure]);
+
+    // Cleanup interceptor on unmount
+    return () => {
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+    };
+  }, []);
 
   return axiosSecure;
 };
