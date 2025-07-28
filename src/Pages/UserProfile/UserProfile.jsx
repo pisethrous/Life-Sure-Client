@@ -6,9 +6,11 @@ import Swal from 'sweetalert2';
 import Loading from '../../Components/Loading/Loading';
 import uploadImageToImgbb from '../../Hooks/uploadImageToImgbb';
 import { useQueryClient } from '@tanstack/react-query';
+import useAuthContext from '../../Hooks/useAuthContext';
 
 const UserProfile = () => {
   const { user, isLoading } = useCurrentUser();
+  const {updateUser} = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, setValue } = useForm();
 const queryClient = useQueryClient();
@@ -45,25 +47,37 @@ const queryClient = useQueryClient();
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await axiosSecure.put(`/users/${user._id}`, {
-        name: data.name,
+ const onSubmit = async (data) => {
+  try {
+    // Update backend DB
+    const res = await axiosSecure.put(`/users/${user._id}`, {
+      name: data.name,
+      photoURL: data.photoURL,
+      email: email,
+    });
+
+    if (res.data.modifiedCount > 0) {
+      // ✅ Update Firebase profile too
+      await updateUser({
+        displayName: data.name,
         photoURL: data.photoURL,
       });
+      // setUser({...user,displayName: data.name, photoURL:data.photoURL});
 
-      if (res.data.modifiedCount > 0) {
-        Swal.fire('Success', 'Profile updated successfully', 'success');
-          queryClient.invalidateQueries(["currentUser"]);
-        setModalOpen(false);
-      } else {
-        Swal.fire('Info', 'No changes detected', 'info');
-      }
-    } catch (error) {
-      console.error(error);
-      Swal.fire('Error', 'Failed to update profile', 'error');
+      Swal.fire('Success', 'Profile updated successfully', 'success');
+
+      // ✅ Refetch currentUser to update UI from DB
+      queryClient.invalidateQueries(['currentUser']);
+      setModalOpen(false);
+    } else {
+      Swal.fire('Info', 'No changes detected', 'info');
     }
-  };
+  } catch (error) {
+    console.error(error);
+    Swal.fire('Error', 'Failed to update profile', 'error');
+  }
+};
+
 
   return (
     <div className="max-w-4xl mx-auto mt-16 p-8 bg-white rounded-xl shadow-md">

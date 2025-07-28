@@ -25,7 +25,7 @@ const AssignedCustomers = () => {
       return res.data;
     },
   });
-  console.log(applications);
+
   const handleStatusChange = async (id, newStatus, policyId) => {
     try {
       await axiosSecure.patch(`/applications/status/${id}`, {
