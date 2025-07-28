@@ -68,23 +68,34 @@ const ContextProvider = ({ children }) => {
 
   // set  observer for
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-       setUser(currentUser);
-      if (currentUser?.email) {
-        axios.post('http://localhost:5000/jwt',{email:currentUser?.email}).then(res=>localStorage.setItem('token',res.data.Token))
-       
-      }
-      else{
-        localStorage.removeItem('token');
-      }
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setLoading(true);
 
-      setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    if (currentUser?.email) {
+      try {
+        const res = await axios.post("http://localhost:5000/jwt", {
+          email: currentUser.email,
+        });
+
+        localStorage.setItem("token", res.data.Token);
+        setUser(currentUser); // set only after successful JWT
+      } catch (err) {
+        console.error("JWT fetch error", err);
+        localStorage.removeItem("token");
+        setUser(null);
+      }
+    } else {
+      localStorage.removeItem("token");
+      setUser(null);
+    }
+
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
 
   const authData = {
     createUser,

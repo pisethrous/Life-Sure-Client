@@ -28,7 +28,7 @@ const LatestBlogs = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
         {blogs.map((blog, index) => (
           <motion.div
-            key={blog.id}
+            key={blog._id}
             className="bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

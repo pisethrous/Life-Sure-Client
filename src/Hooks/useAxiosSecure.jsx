@@ -1,16 +1,18 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 const useAxiosSecure = () => {
-  const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000",
-  
-  });
+  const axiosSecure = useMemo(() => {
+    return axios.create({
+      baseURL: "http://localhost:5000",
+    });
+  }, []);
 
   useEffect(() => {
     const requestInterceptor = axiosSecure.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
+        console.log("🔐 Sending token to backend:", token);
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -19,11 +21,10 @@ const useAxiosSecure = () => {
       (error) => Promise.reject(error)
     );
 
-    // Cleanup interceptor on unmount
     return () => {
       axiosSecure.interceptors.request.eject(requestInterceptor);
     };
-  }, []);
+  }, [axiosSecure]);
 
   return axiosSecure;
 };
