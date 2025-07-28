@@ -90,12 +90,18 @@ const PolicyDetails = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-col md:flex-row gap-4 mt-6">
+          <div className="flex flex-col  gap-4 mt-6">
             <button
                className="btn btn-outline btn-secondary hover:bg-secondary hover:text-white w-full"
               onClick={() => navigate(`/quote/${policy._id}`)}
             >
               Get Quote
+            </button>
+            <button
+               className="btn btn-outline btn-primary hover:bg-primary hover:text-white w-full"
+              onClick={() => navigate(`/quote/${policy._id}`)}
+            >
+            Book Agent Consultation
             </button>
            
           </div>

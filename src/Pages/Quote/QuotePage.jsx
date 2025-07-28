@@ -197,6 +197,7 @@ const QuotePage = () => {
       </form>
 
       <div className="flex justify-between items-center pt-4">
+        
         <button
           disabled={!quoteData}
           onClick={() =>
@@ -209,7 +210,10 @@ const QuotePage = () => {
           }`}
         >
           Apply For Policy
+          
         </button>
+ 
+    
       </div>
     </div>
   );

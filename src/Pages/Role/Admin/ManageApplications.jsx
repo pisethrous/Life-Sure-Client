@@ -9,8 +9,8 @@ import useTitle from "../../../Hooks/useTitle";
 const ManageApplications = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedApp, setSelectedApp] = useState(null);
-  const [selectedAgents, setSelectedAgents] = useState({}); // Track agent per row
-useTitle("Manage-application");
+  useTitle("Manage-application");
+  
   // Fetch applications
   const {
     data: applications = [],
@@ -47,9 +47,13 @@ useTitle("Manage-application");
       );
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success", "Agent assigned successfully", "success");
-        refetch();
+        // Force refresh to get updated data
+        await refetch();
+      } else {
+        Swal.fire("Warning", "No changes were made", "warning");
       }
     } catch (err) {
+      console.error("Assignment error:", err);
       Swal.fire("Error", "Failed to assign agent", "error");
     }
   };
@@ -144,49 +148,47 @@ useTitle("Manage-application");
                     View Details
                   </button>
 
-                  {/* Agent Select */}
-                  {/* Assign Agent Select */}
-                  <select
-                    className="select select-sm select-bordered w-full"
-                    value={selectedAgents[app._id] || ""}
-                    onChange={(e) =>
-                      setSelectedAgents({
-                        ...selectedAgents,
-                        [app._id]: e.target.value,
-                      })
-                    }
-                    disabled={app.status === "rejected" || app.agentEmail}
-                  >
-                    <option value="">Assign Agent</option>
-                    {agents?.map((agent) => (
-                      <option key={agent.email} value={agent.email}>
-                        {agent.name}
+                  {/* Agent Assignment - Show dropdown only if not assigned and not rejected */}
+                  {(!app.agentEmail && !app.assignedAgent && app.status === "pending") ? (
+                    <select
+                      className="select select-sm select-bordered w-full"
+                      defaultValue=""
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          handleAssignAgent(app._id, e.target.value);
+                        }
+                      }}
+                    >
+                      <option value="" disabled>
+                        Assign Agent
                       </option>
-                    ))}
-                  </select>
+                      {agents?.map((agent) => (
+                        <option key={agent.email} value={agent.email}>
+                          {agent.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <div className="text-xs text-center p-2 bg-green-100 rounded border text-green-700 font-medium">
+                      {app.status === "rejected" ? "Rejected" : "Assigned"}
+                    </div>
+                  )}
 
-                  {/* Confirm Assign Button */}
+                  {/* Reject Button */}
                   <button
-                    disabled={
-                      !selectedAgents[app._id] ||
-                      app.status === "rejected" ||
-                      app.agentEmail
-                    }
-                    className="btn btn-xs btn-primary w-full"
-                    onClick={() =>
-                      handleAssignAgent(app._id, selectedAgents[app._id])
-                    }
-                  >
-                    {app.agentEmail ? "Agent Assigned" : "Confirm Assign"}
-                  </button>
-
-                  {/* Reject */}
-                  <button
-                    className="btn btn-xs btn-error w-full"
+                    className={`btn btn-xs w-full ${
+                      app.status === "pending" 
+                        ? "btn-error" 
+                        : "btn-disabled bg-gray-300 text-gray-500"
+                    }`}
                     onClick={() => handleReject(app._id)}
-                    disabled={app.status === "rejected"}
+                    disabled={app.status !== "pending"}
                   >
-                    {app.status === "rejected" ? "Rejected" : "Reject"}
+                    {app.status === "rejected" 
+                      ? "Rejected" 
+                      : app.status === "approved" 
+                      ? "Approved" 
+                      : "Reject"}
                   </button>
                 </td>
               </tr>
