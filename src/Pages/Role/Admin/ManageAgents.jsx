@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Components/Loading/Loading";
 
+import noPending from "../../../assets/noPending.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -118,7 +119,10 @@ const ManageAgents = () => {
             {loadingPending ? (
               <Loading/>
             ) : pendingApplications.length === 0 ? (
-              <p>No pending applications.</p>
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-3xl">No pending applications.</p>
+              <img src={noPending} width={450} alt="" />
+              </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="table w-full border">
