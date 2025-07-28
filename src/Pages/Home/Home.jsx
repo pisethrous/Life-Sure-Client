@@ -6,13 +6,14 @@ import CustomerReviews from './CustomerReviews/CustomerReviews';
 import LatestBlogs from './LatestBlogs/LatestBlogs';
 import NewsletterForm from './NewStaller/NewsletterForm ';
 import MeetOurAgents from './MeetAgents/MeetOurAgents';
+import Banner from '../../Components/Banner/Banner';
 
 
 const Home = () => {
 useTitle("Home");
     return (
         <div >
-            <h1>home is coming..........</h1>
+            <Banner></Banner>
             <PopularPolicies></PopularPolicies>
             <LifeSureBenefits></LifeSureBenefits>
             <CustomerReviews></CustomerReviews>
