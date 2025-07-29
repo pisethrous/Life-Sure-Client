@@ -145,7 +145,7 @@ toast.error("❌ Payment failed");
         <button
           type="submit"
           disabled={!stripe}
-          className="w-full bg-primary/80 text-black  py-2 px-4 rounded hover:bg-primary disabled:opacity-50"
+          className="w-full bg-secondary text-white  py-2 px-4 rounded hover:bg-secondary disabled:opacity-50"
         >
           Pay {bdtAmount} Tk
         </button>

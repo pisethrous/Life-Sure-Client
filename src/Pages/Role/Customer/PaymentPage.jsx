@@ -16,6 +16,12 @@ const PaymentPage = () => {
 
   return (
     <div className="w-11/12 mx-auto min-h-screen py-10">
+        <div className="mb-6">
+        <p className="text-sm text-gray-500">Step 3 of 3</p>
+        <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+          <div className="bg-secondary h-2 rounded-full animate-pulse w-3/3"></div>
+        </div>
+      </div>
       <div className="p-6 shadow-md rounded-md bg-white w-full max-w-3xl mx-auto">
         <h1 className="bg-primary text-white rounded-md p-2 mb-6 w-fit flex items-center gap-2">
           <CiCircleInfo className="text-xl" /> You are paying for:{" "}
