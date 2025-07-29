@@ -53,7 +53,7 @@
 > To run this project locally:
 
 ```bash
-git clone https://github.com/your-username/lifesure.git
+git clone (will update later)
 cd lifesure
 npm install
 npm run dev
