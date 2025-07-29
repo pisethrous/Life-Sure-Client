@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import uploadImageToImgbb from "../../../Hooks/uploadImageToImgbb"; // ✅ Correct import
 import toast from "react-hot-toast";
 import Loading from "../../../Components/Loading/Loading";
-
+import empty from "../../../assets/emptyClaim.png"
 const ClaimRequest = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
@@ -67,6 +67,7 @@ const ClaimRequest = () => {
       <div className="max-w-xl mx-auto p-4 bg-white shadow rounded text-center mt-16">
         <h2 className="text-xl font-semibold mb-2">Submit Claim Request</h2>
         <p className="text-red-600">🚫 You have no active policies to claim.</p>
+        <img src={empty} alt="" />
       </div>
     );
   }

@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import uploadImageToImgbb from "../../../Hooks/uploadImageToImgbb";
 import Swal from "sweetalert2";
+import useAuthContext from "../../../Hooks/useAuthContext";
 
 const EditBlogForm = ({ blog, onClose, refetch }) => {
+  const { user } = useAuthContext();
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       title: blog.title,
@@ -25,6 +27,7 @@ const EditBlogForm = ({ blog, onClose, refetch }) => {
         title: data.title,
         content: data.content,
         image: imageUrl,
+        authorEmail:user.email
       };
 
       const res = await axiosSecure.put(`/blogs/${blog._id}`, updatedBlog);
