@@ -26,7 +26,35 @@ const AssignedCustomers = () => {
     },
   });
 
-  const handleStatusChange = async (id, newStatus, policyId) => {
+const handleStatusChange = async (id, newStatus, policyId) => {
+  if (newStatus === "rejected") {
+    const { value: feedback } = await Swal.fire({
+      title: "Reject Feedback",
+      input: "textarea",
+      inputLabel: "Provide a reason for rejection",
+      inputPlaceholder: "Type your feedback here...",
+      inputAttributes: {
+        "aria-label": "Feedback message",
+      },
+      showCancelButton: true,
+    });
+
+    if (!feedback) return; // Cancelled or empty input
+
+    try {
+      await axiosSecure.patch(`/applications/status/${id}`, {
+        status: newStatus,
+        policyId,
+        dueDate,
+        rejectionFeedback: feedback,
+      });
+      Swal.fire("Rejected", "Feedback submitted", "success");
+      refetch();
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Could not reject", "error");
+    }
+  } else {
     try {
       await axiosSecure.patch(`/applications/status/${id}`, {
         status: newStatus,
@@ -39,7 +67,9 @@ const AssignedCustomers = () => {
       console.error(error);
       Swal.fire("Error", "Could not update status", "error");
     }
-  };
+  }
+};
+
 
   if (isLoading) return <Loading />;
 
