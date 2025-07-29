@@ -11,6 +11,7 @@ const ClaimRequest = () => {
   const { user } = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const [uploading, setUploading] = useState(false);
+const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { data: allApplications = [], isLoading } = useQuery({
     queryKey: ["active-application", user?.email],
@@ -55,6 +56,7 @@ const ClaimRequest = () => {
     reset();
     if (res.data?.insertedId) {
       toast.success("✅ Claim submitted!");
+        setIsSubmitted(true); 
     } else {
       toast.error("⚠️ Failed to submit claim. Try again.");
     }
@@ -119,10 +121,10 @@ const ClaimRequest = () => {
 
         <button
           type="submit"
-          disabled={uploading}
+         disabled={uploading || isSubmitted}
           className="bg-secondary w-full text-white px-4 py-2 rounded disabled:opacity-50"
         >
-          {uploading ? "Submitting..." : "Submit Claim"}
+          {uploading ? "Submitting..." : isSubmitted ? "Submitted ✅" : "Submit Claim"}
         </button>
       </form>
     </div>
