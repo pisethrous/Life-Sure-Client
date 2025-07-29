@@ -1,12 +1,59 @@
-# React + Vite
+# 🛡️ LifeSure – Life Insurance Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Site**: [life-sure.surge.sh](http://life-sure.surge.sh/)  
+**Admin Login**:  
+📧 `ronaldo@gmail.com`  
+🔒 `123456aA`
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Overview
 
-## Expanding the ESLint configuration
+**LifeSure** is a full-featured Life Insurance Management Platform designed to streamline the entire process — from policy browsing to application, payment, and management. Built with modern technologies and designed for scalability and excellent user experience, LifeSure provides role-based dashboards and dynamic features for customers, agents, and admins.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Key Features
+
+- 🔐 **Role-Based Authentication** via Firebase (Customer / Agent / Admin)
+- 📋 **Policy Management System** (CRUD for Admin)
+- 🔍 **Quote Calculator** based on age, duration, coverage, smoking status, etc.
+- 📝 **Multi-Step Application Form** with Personal, Nominee, and Health sections
+- 💳 **Stripe Payment Integration** with secure checkout and payment tracking
+- 📄 **PDF Policy Download** for approved policies (via jsPDF & html2canvas)
+- 🎯 **Agent Dashboard** to manage assigned customers and update statuses
+- 📚 **Blog System** for agents to write, edit, and share articles
+- 📈 **Admin Transaction Dashboard** with filters and earnings graph (Recharts)
+- 🧑‍🤝‍🧑 **Manage Users** – promote/demote roles, delete, view registration data
+- 🔄 **Claim Requests Handling** – submission, status updates, and admin response
+- 💬 **FAQs & Forum** – upvote helpful questions
+- 🔥 **Popular Policies Display** based on purchase count
+- 📆 **Due Date Tracking** for agents after assigning a policy
+- 🌐 **Responsive UI** – fully optimized for mobile, tablet, and desktop
+
+---
+
+## 🧪 Tech Stack
+
+### Frontend:
+- **React 19**, **React Router 7**
+- **Tailwind CSS 4**, **DaisyUI**, **Framer Motion**
+- **React Hook Form**, **SweetAlert2**, **TanStack React Query**
+- **jsPDF**, **html2canvas**, **Lottie**, **Swiper**
+
+### Backend:
+- **Node.js**, **Express.js**, **MongoDB**
+- **JWT**, **Stripe Payment API**
+- **Axios with Secure Interceptors**
+
+---
+
+## 🛠️ Installation & Setup
+
+> To run this project locally:
+
+```bash
+git clone https://github.com/your-username/lifesure.git
+cd lifesure
+npm install
+npm run dev

@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 const useAxiosSecure = () => {
   const axiosSecure = useMemo(() => {
     return axios.create({
-      baseURL: "http://localhost:5000",
+      baseURL: "https://assignment-12-server-xi-orpin.vercel.app/",
     });
   }, []);
 

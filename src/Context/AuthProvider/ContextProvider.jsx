@@ -74,7 +74,7 @@ useEffect(() => {
 
     if (currentUser?.email) {
       try {
-        const res = await axios.post("http://localhost:5000/jwt", {
+        const res = await axios.post("https://assignment-12-server-xi-orpin.vercel.app/jwt", {
           email: currentUser.email,
         });
 
