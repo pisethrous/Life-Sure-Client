@@ -105,7 +105,7 @@ const ManageUsers = () => {
 
                 {user.role === "agent" && (
                   <button
-                    className="btn btn-xs btn-warning"
+                    className="btn btn-xs text-sm  btn-accent"
                     onClick={() => handleRoleChange(user._id, "customer")}
                   >
                     Demote to Customer
