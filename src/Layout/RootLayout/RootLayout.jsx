@@ -1,12 +1,14 @@
 import React from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import Footer from "../../Components/Footer/Footer";
 
 const RootLayout = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   return (
     <div className="">
-      <Navbar />
+      <Navbar transparent={isHome} />
       
     
       <div className="min-h-screen">

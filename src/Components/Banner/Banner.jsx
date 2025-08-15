@@ -42,6 +42,7 @@ const Banner = () => {
 
   return (
     <div className="relative">
+
       <Carousel
         autoPlay
         infiniteLoop
@@ -53,10 +54,11 @@ const Banner = () => {
         emulateTouch
         onChange={(index) => setActiveIndex(index)}
       >
+        
         {slides.map((slide, index) => (
           <div
             key={index}
-            className="h-[75vh] md:h-[75vh] bg-cover bg-center relative"
+            className="h-[75vh] md:h-[80vh] bg-cover bg-center relative"
             style={{ backgroundImage: `url('${slide.image}')` }}
           >
             <div className="absolute inset-0 bg-black/70"></div>
