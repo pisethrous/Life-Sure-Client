@@ -4,7 +4,7 @@ import Logo from "../Logo/Logo";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Navbar = ({ transparent }) => {
+const Navbar = () => {
   const dropdownVariants = {
     hidden: { opacity: 0, y: -10 },
     visible: { opacity: 1, y: 0 },
@@ -79,7 +79,7 @@ const Navbar = ({ transparent }) => {
                     logoutUser();
                     setIsClicked(false);
                   }}
-                  className="btn btn-secondary btn-sm text-white w-full"
+                className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary"
                 >
                   Log Out
                 </button>
@@ -93,14 +93,14 @@ const Navbar = ({ transparent }) => {
     <>
       <li>
         <NavLink to="/auth/login">
-          <button className="px-4 py-2 text-white bg-secondary rounded">
+          <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
             Sign In
           </button>
         </NavLink>
       </li>
       <li>
         <NavLink to="/auth/register">
-          <button className="px-4 py-2 text-white bg-secondary rounded">
+          <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
             Sign Up
           </button>
         </NavLink>
@@ -147,14 +147,12 @@ const Navbar = ({ transparent }) => {
   return (
     <>
       {/* Navbar */}
-      <div  className={`navbar w-full z-50 px-6 py-4 fixed top-0 left-0 transition-all duration-300 ${
-        transparent ? "bg-transparent" : " "
-      }`}>
+      <div className="navbar bg-primary/80 text-white backdrop-blur-md sticky top-0 z-50">
         <div className="navbar-start">
           <Logo />
         </div>
 
-        <div className="navbar-center hidden lg:flex bg-primary/45 backdrop-blur-md rounded-lg text-white">
+        <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 space-x-2">{links}</ul>
         </div>
 
