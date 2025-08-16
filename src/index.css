@@ -12,7 +12,7 @@
   --color-accent: #F97316;
 }
 .active{
-    @apply text-secondary font-semibold
+    @apply text-accent font-semibold
 }
 .rubik {
  font-family: "Rubik", sans-serif;

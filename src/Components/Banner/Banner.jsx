@@ -29,7 +29,7 @@ const Banner = () => {
           }}
         >
           {/* Dark-left → light-right gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#205AA0]/95 via-[#205AA0]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#003478]/95 via-[#205AA0]/40 to-transparent"></div>
 
           {activeIndex === 0 && (
             <motion.div
@@ -44,7 +44,7 @@ const Banner = () => {
               </h3>
 
               {/* Hardcoded two-line heading with perfect left alignment */}
-              <h2 className="text-3xl md:text-6xl font-extrabold leading-tight text-left mb-4">
+              <h2 className="text-3xl md:text-5xl font-extrabold leading-tight text-left mb-4">
                 <span className="block">RELIABLE AMBITION</span>
                 <span className="block">FOR ANY PURPOSE</span>
               </h2>

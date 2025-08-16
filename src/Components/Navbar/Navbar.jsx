@@ -90,22 +90,22 @@ const Navbar = () => {
       </AnimatePresence>
     </div>
   ) : (
-    <>
-      <li>
+    <ul className="flex gap-2">
+      
         <NavLink to="/auth/login">
           <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
             Sign In
           </button>
         </NavLink>
-      </li>
-      <li>
+     
+     
         <NavLink to="/auth/register">
           <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
             Sign Up
           </button>
         </NavLink>
-      </li>
-    </>
+    
+    </ul>
   );
 
   // 🧩 Auth Buttons for Mobile
@@ -147,7 +147,7 @@ const Navbar = () => {
   return (
     <>
       {/* Navbar */}
-      <div className="navbar bg-primary/80 text-white backdrop-blur-md sticky top-0 z-50">
+      <div className="navbar px-6 lg:px-20 bg-primary text-white backdrop-blur-md sticky top-0 z-50">
         <div className="navbar-start">
           <Logo />
         </div>

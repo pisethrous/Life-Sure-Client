@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-
+import { FaArrowRightLong } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import Loading from "../../Components/Loading/Loading";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -21,72 +21,74 @@ const PopularPolicies = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
-        🔥 Popular Policies
-      </h2>
+    <div className="w-11/12 mx-auto px-4 my-12">
+    <div className="text-center mb-10">
+  <h2 className="text-3xl md:text-5xl font-bold text-primary">
+    Popular Policies
+  </h2>
+  <p className="mt-3 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+    Explore the most trusted and frequently chosen insurance plans by our customers. <br />
+    Find the one that suits your needs best.
+  </p>
+</div>
+<motion.div
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }}
+  className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+>
+  {policies.map((policy) => (
+    <motion.div
+      key={policy._id}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      whileHover={{ scale: 1.02 }}
+      className="bg-white rounded-xl shadow-md hover:shadow-xl overflow-hidden group transition-all duration-300 ease-in-out"
+    >
+      {/* Image */}
+      <figure className="relative h-40 overflow-hidden">
+        <motion.img
+          src={policy.image}
+          alt={policy.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        {/* Small overlay badge */}
+        <span className="absolute top-3 left-3 bg-accent text-white text-xs font-medium px-2 py-1 rounded-md shadow">
+          Popular
+        </span>
+      </figure>
 
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.1,
-            },
-          },
-        }}
-        className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {policies.map((policy) => (
-          <motion.div
-            key={policy._id}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            whileHover={{ scale: 1.03 }}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden group transition-all duration-300 ease-in-out relative"
+      {/* Content */}
+      <div className="p-4 space-y-2">
+        <h2 className="text-lg font-semibold text-gray-800 line-clamp-1">
+          {policy.title}
+        </h2>
+        <p className="text-sm text-gray-600 line-clamp-2">
+          {policy.description.slice(0, 60)}...
+        </p>
+
+        {/* Buttons */}
+        <div className="pt-3">
+          <button
+            onClick={() => navigate(`/policies/${policy._id}`)}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-primary border border-primary rounded-md hover:bg-primary hover:text-white transition-all duration-300"
           >
-            <figure className="h-48 overflow-hidden">
-              <motion.img
-                src={policy.image}
-                alt={policy.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </figure>
+            View Details <FaArrowRightLong className="text-xs" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  ))}
+</motion.div>
 
-            {/* Category Badge */}
-            <span className="absolute top-3 right-3 bg-accent text-white text-xs font-semibold py-1 px-3 rounded-full shadow-md">
-              {policy.category}
-            </span>
-
-            <div className="p-5 space-y-2">
-              <h2 className="text-xl font-bold text-gray-800">{policy.title}</h2>
-              <p className="text-sm text-gray-600 line-clamp-2">
-                {policy.description}
-              </p>
-              <div className="text-sm text-gray-700">
-                <p>
-                  <span className="font-medium">Coverage:</span> {policy.coverage}
-                </p>
-                <p>
-                  <span className="font-medium">Duration:</span> {policy.duration}
-                </p>
-                <p>
-                  <span className="font-medium">Popularity:</span> {policy.purchaseCount} purchases
-                </p>
-              </div>
-              <button
-                onClick={() => navigate(`/policies/${policy._id}`)}
-                className="btn w-full mt-3 bg-gradient-to-r from-primary to-secondary text-white hover:scale-105 transition-transform duration-200 ease-in-out"
-              >
-                View Details
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
     </div>
   );
 };
