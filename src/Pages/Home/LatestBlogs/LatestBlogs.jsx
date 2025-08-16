@@ -25,7 +25,7 @@ const LatestBlogs = () => {
         <p className="text-gray-500 mt-2">Stay informed and inspired with our expert articles</p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 w-11/12 mx-auto px-4">
         {blogs.map((blog, index) => (
           <motion.div
             key={blog._id}
