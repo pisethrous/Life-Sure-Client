@@ -81,7 +81,7 @@ const PopularPolicies = () => {
             onClick={() => navigate(`/policies/${policy._id}`)}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-primary border border-primary rounded-md hover:bg-primary hover:text-white transition-all duration-300"
           >
-            View Details <FaArrowRightLong className="text-xs" />
+            See More <FaArrowRightLong className="text-xs" />
           </button>
         </div>
       </div>
