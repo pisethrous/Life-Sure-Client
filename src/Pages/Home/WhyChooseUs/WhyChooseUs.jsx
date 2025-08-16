@@ -20,7 +20,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-12 bg-white">
       <div className="w-11/12 mx-auto px-6  grid lg:grid-cols-2 gap-12 items-center">
         {/* Left Side */}
         <div>

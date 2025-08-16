@@ -20,10 +20,13 @@ const AxiosSecure = useAxiosSecure();
   };
 
   return (
-    <div className="bg-accent text-white my-12 mx-auto p-6 flex lg:flex-row flex-col-reverse items-center gap-10 justify-center ">
+    <div className="bg-[#E2E7EE]  py-12 flex lg:flex-row flex-col-reverse items-center  justify-around ">
         <div >
-            <h1 className="text-2xl text-center">Get Policy News</h1>
-            <p className="mb-4 text-center"> Simple tips, helpful blogs, and the latest policies to increase your interest.</p>
+            <h1 className="lg:text-5xl text-2xl text-primary text-center mb-2">Get Policy News</h1>
+             <p className=" mb-6 text-md opacity-70">
+          Get simple tips, helpful blogs, and the latest policy updates straight <br />
+          to your inbox. Stay informed and make smarter decisions.
+        </p>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto">
                 <label >Name:</label>
           <input
@@ -39,7 +42,7 @@ const AxiosSecure = useAxiosSecure();
             {...register("email", { required: true })}
             className="input input-bordered w-full text-black"
           />
-          <button type="submit" className="btn btn-secondary w-full">
+          <button type="submit"className="btn btn-outline btn-primary w-full">
             Subscribe
           </button>
         </form>
