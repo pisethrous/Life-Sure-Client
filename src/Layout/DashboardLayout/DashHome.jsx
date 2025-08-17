@@ -15,34 +15,26 @@ import Loading from "../../Components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import TransactionsChart from "../../Pages/Role/Customer/TransactionsChart";
+import CustomerOverview from "../../Pages/Role/Customer/CustomerOverview";
 
 const DashHome = () => {
   const { user } = useCurrentUser();
-  const AxiosSecure = useAxiosSecure();
-// customer policy data
-  const { data: myPolicies = [], isLoading } = useQuery({
-    queryKey: ["myPolicies", user?.email],
-    enabled: !!user?.email,
-    queryFn: async () => {
-      const res = await AxiosSecure.get(
-        `/applications/user?email=${user?.email}`
-      );
-      return res.data;
-    },
-  });
-  // customer payment data
-   const { data: transactions = [] } = useQuery({
-      queryKey: ["payments"],
-      queryFn: async () => {
-        const res = await AxiosSecure.get("/payment-history");
-        return res.data;
-      },
-    });
-   const paid = transactions.filter(amount=>amount.
-status== "success");
+//   const AxiosSecure = useAxiosSecure();
+// // customer policy data
+//   const { data: myPolicies = [], isLoading } = useQuery({
+//     queryKey: ["myPolicies", user?.email],
+//     enabled: !!user?.email,
+//     queryFn: async () => {
+//       const res = await AxiosSecure.get(
+//         `/applications/user?email=${user?.email}`
+//       );
+//       return res.data;
+//     },
+//   });
 
 
-  if (isLoading) return <Loading />;
+
+
 
   // 🛠️ A helper to render cards with consistent design
   const Card = ({ icon, iconBg, title, description, footer }) => (
@@ -71,32 +63,7 @@ status== "success");
       {/* ✅ Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* 👉 Customer Dash Summary */}
-        {user.role === "customer" && (
-          <>
-            <Card
-              icon={<FaShieldAlt size={32} />}
-              iconBg="bg-gradient-to-tr from-blue-500 to-blue-300"
-              title={`${myPolicies.length} My Policies`}
-              description="Active insurance plans under your account."
-              footer="Last updated just now"
-            />
-            <Card
-              icon={<FaMoneyCheckAlt size={32} />}
-              iconBg="bg-gradient-to-tr from-green-500 to-green-300"
-              title="Payment History"
-              description="View all transactions and invoices in one place."
-              footer="Last payment: Aug 15, 2025"
-            />
-            <Card
-              icon={<FaUserEdit size={32} />}
-              iconBg="bg-gradient-to-tr from-yellow-500 to-yellow-300"
-              title="File a Claim"
-              description="Easily submit a claim for any of your active policies."
-              footer="Quick response within 48 hours"
-            />
-        
-          </>
-        )}
+   
 
         {/* 👉 Agent Dash Summary */}
         {user.role === "agent" && (
@@ -141,7 +108,11 @@ status== "success");
         )}
       </div>
       {user.role === "customer" && (
-  <TransactionsChart paid={paid} />
+         <div>
+           <CustomerOverview></CustomerOverview>
+           
+             <TransactionsChart  />
+         </div>
 )}
     </div>
   );
