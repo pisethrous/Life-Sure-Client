@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router"; // ✅ fixed import
+import { Link, NavLink, Outlet } from "react-router"; // ✅ fixed import
 import {
   FaHome,
   FaBoxOpen,
@@ -58,13 +58,13 @@ const DashboardLayout = () => {
       </div>
 
       {/* Sidebar */}
-      <div className="drawer-side">
+      <div className="drawer-side ">
         <label
           htmlFor="my-drawer-2"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 space-y-2">
+        <ul className="menu bg-primary text-secondary min-h-full w-80 p-4 space-y-2">
           <div className="flex items-center gap-4">
             <Logo />
              <span
@@ -81,10 +81,10 @@ const DashboardLayout = () => {
           </div>
 
           <li>
-            <NavLink to="/dashboard">
+            <Link to="/dashboard">
               <FaHome className="inline-block mr-2" />
               Dashboard Home
-            </NavLink>
+            </Link>
           </li>
           <li>
             <NavLink to="/dashboard/profile">

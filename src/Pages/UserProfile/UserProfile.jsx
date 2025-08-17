@@ -7,12 +7,14 @@ import Loading from '../../Components/Loading/Loading';
 import uploadImageToImgbb from '../../Hooks/uploadImageToImgbb';
 import { useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../../Hooks/useAuthContext';
+import useTitle from '../../Hooks/useTitle';
 
 const UserProfile = () => {
   const { user, isLoading } = useCurrentUser();
   const {updateUser} = useAuthContext();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, setValue } = useForm();
+  useTitle('my-profile')
 const queryClient = useQueryClient();
   const [modalOpen, setModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
