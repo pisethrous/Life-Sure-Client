@@ -19,7 +19,7 @@ const PaymentPage = () => {
         <div className="mb-6">
         <p className="text-sm text-gray-500">Step 3 of 3</p>
         <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-          <div className="bg-secondary h-2 rounded-full animate-pulse w-3/3"></div>
+          <div className="bg-primary h-2 rounded-full animate-pulse w-3/3"></div>
         </div>
       </div>
       <div className="p-6 shadow-md rounded-md bg-white w-full max-w-3xl mx-auto">

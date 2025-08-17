@@ -97,7 +97,7 @@ const QuotePage = () => {
       <div className="mb-6">
         <p className="text-sm text-gray-500">Step 1 of 3</p>
         <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-          <div className="bg-secondary h-2 rounded-full animate-pulse w-1/3"></div>
+          <div className="bg-primary h-2 rounded-full animate-pulse w-1/3"></div>
         </div>
       </div>
 
@@ -190,19 +190,26 @@ const QuotePage = () => {
         </div>
 
         <div className="flex justify-between items-center pt-4">
-          <button type="submit" className="btn btn-secondary w-full">
+          <button
+            type="submit"
+            className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
+             transition-all duration-300"
+          >
             Get Estimate Premium
           </button>
         </div>
       </form>
 
       <div className="flex justify-between items-center pt-4">
-        
         <button
           disabled={!quoteData}
           onClick={() =>
             navigate(`/application/${policy._id}`, {
-              state: { quoteData, policyTitle: policy.title,policyId:policy.id },
+              state: {
+                quoteData,
+                policyTitle: policy.title,
+                policyId: policy.id,
+              },
             })
           }
           className={`btn btn-outline btn-primary hover:bg-primary hover:text-white w-full ${
@@ -210,10 +217,7 @@ const QuotePage = () => {
           }`}
         >
           Apply For Policy
-          
         </button>
- 
-    
       </div>
     </div>
   );

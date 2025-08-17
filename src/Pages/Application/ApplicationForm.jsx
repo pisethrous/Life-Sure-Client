@@ -67,7 +67,7 @@ const navigate = useNavigate();
       <div className="mb-6">
         <p className="text-sm text-gray-500">Step 2 of 3</p>
         <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-          <div className="bg-secondary h-2 rounded-full w-2/3"></div>
+          <div className="bg-primary h-2 rounded-full w-2/3"></div>
         </div>
       </div>
 
@@ -217,7 +217,8 @@ const navigate = useNavigate();
 
         <button
           type="submit"
-          className="btn btn-secondary text-white w-full mt-4"
+         className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
+             transition-all duration-300"
         >
           Submit Application
         </button>
