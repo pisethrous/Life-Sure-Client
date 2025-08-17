@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import TransactionsChart from "../../Pages/Role/Customer/TransactionsChart";
 import CustomerOverview from "../../Pages/Role/Customer/CustomerOverview";
+import AdminOverView from "../../Pages/Role/Admin/AdminOverView";
 
 const DashHome = () => {
   const { user } = useCurrentUser();
@@ -60,10 +61,17 @@ const DashHome = () => {
         👋 Welcome back, {user.name || "User"}!
       </h2>
 
-      {/* ✅ Responsive Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* 👉 Customer Dash Summary */}
    
+      <div >
+        {/* 👉 Customer Dash Summary */}
+        {user.role === "customer" && (
+         <div>
+           <CustomerOverview></CustomerOverview>
+           
+             <TransactionsChart  />
+         </div>
+)}
+    
 
         {/* 👉 Agent Dash Summary */}
         {user.role === "agent" && (
@@ -86,35 +94,11 @@ const DashHome = () => {
         {/* 👉 Admin Dash Summary */}
         {user.role === "admin" && (
           <>
-            <Card
-              icon={<FaUsers size={32} />}
-              iconBg="bg-gradient-to-tr from-indigo-500 to-indigo-300"
-              title="Manage Users"
-              description="Control platform users and assign roles."
-            />
-            <Card
-              icon={<MdSettingsApplications size={32} />}
-              iconBg="bg-gradient-to-tr from-orange-500 to-orange-300"
-              title="Manage Applications"
-              description="Approve or reject customer applications."
-            />
-            <Card
-              icon={<TbTransactionDollar size={32} />}
-              iconBg="bg-gradient-to-tr from-teal-500 to-teal-300"
-              title="Manage Transactions"
-              description="Track and monitor all payment activity."
-            />
+          <AdminOverView></AdminOverView>
           </>
         )}
       </div>
-      {user.role === "customer" && (
-         <div>
-           <CustomerOverview></CustomerOverview>
-           
-             <TransactionsChart  />
-         </div>
-)}
-    </div>
+ </div>
   );
 };
 
