@@ -17,6 +17,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import TransactionsChart from "../../Pages/Role/Customer/TransactionsChart";
 import CustomerOverview from "../../Pages/Role/Customer/CustomerOverview";
 import AdminOverView from "../../Pages/Role/Admin/AdminOverView";
+import AgentDashboard from "../../Pages/Role/Agent/AgentDashboard";
 
 const DashHome = () => {
   const { user } = useCurrentUser();
@@ -76,18 +77,7 @@ const DashHome = () => {
         {/* 👉 Agent Dash Summary */}
         {user.role === "agent" && (
           <>
-            <Card
-              icon={<FaUserCheck size={32} />}
-              iconBg="bg-gradient-to-tr from-purple-500 to-purple-300"
-              title="Assigned Customers"
-              description="View and manage your assigned clients."
-            />
-            <Card
-              icon={<FaBlog size={32} />}
-              iconBg="bg-gradient-to-tr from-pink-500 to-pink-300"
-              title="Write Blogs"
-              description="Share your expertise by publishing helpful articles."
-            />
+         <AgentDashboard></AgentDashboard>
           </>
         )}
 
