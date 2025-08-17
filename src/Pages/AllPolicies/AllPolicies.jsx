@@ -5,6 +5,7 @@ import debounce from "lodash/debounce";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { useNavigate } from "react-router";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const AllPolicies = () => {
   const axiosSecure = useAxiosSecure();
@@ -55,8 +56,8 @@ const AllPolicies = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="px-4 py-10 max-w-6xl mx-auto">
-      <h1 className="text-4xl font-extrabold text-center text-accent mb-8">
+    <div className="px-4 py-10 w-11/12 mx-auto">
+      <h1 className="lg:text-5xl text-2xl  font-extrabold text-center text-primary mb-8">
         🔍 Explore Insurance Policies
       </h1>
 
@@ -101,23 +102,21 @@ const AllPolicies = () => {
             </figure>
 
             <div className="card-body relative">
-              <span className="absolute top-4 right-4 bg-accent text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">
-                {policy.category}
-              </span>
-
-              <h2 className="card-title text-lg font-semibold">{policy.title}</h2>
-              <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                {policy.description}
+              <h2 className="card-title text-lg font-semibold">
+                {policy.title}
+              </h2>
+              <p className="text-sm text-gray-600  line-clamp-2">
+                {policy.description.slice(0, 60)}....
               </p>
 
-              <div className="card-actions mt-4">
+              <div className="card-actions ">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate(`/policies/${policy._id}`)}
-                  className="btn w-full bg-secondary text-white hover:bg-gradient-to-r from-primary/70 to-secondary/100 transition-all duration-300"
+                  className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-primary border border-primary rounded-md hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  View Details
+                  View Details <FaArrowRightLong className="text-xs" />
                 </motion.button>
               </div>
             </div>
