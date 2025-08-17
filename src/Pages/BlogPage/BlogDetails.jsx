@@ -37,7 +37,7 @@ const BlogDetails = () => {
           className="w-full md:w-1/2 h-72 object-cover rounded-lg"
         />
         <div className="w-full md:w-1/2 flex flex-col justify-between">
-          <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
+          <h1 className="text-3xl text-primary font-bold mb-2">{blog.title}</h1>
           <div className="flex items-center gap-3 mb-4">
             <img
               src={blog.authorImage || "https://i.ibb.co/z4scJgP/user.png"}

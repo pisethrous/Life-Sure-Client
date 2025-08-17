@@ -10,11 +10,11 @@ const Promo = () => {
 
         {/* Text Content */}
         <div className="space-y-6 text-center md:text-left">
-          <h2 className="text-3xl md:text-4xl font-bold text-base-content leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary leading-tight">
             Secure Your Family’s Future with{" "} <br />
             <span className="text-primary">LifeSure Insurance</span>
           </h2>
-          <p className="text-base md:text-lg text-base-content/80">
+          <p className="text-black opacity-50">
             Get peace of mind knowing your loved ones are financially protected. <br /> 
             Our flexible plans cover you at every stage of life — with simple, transparent policies and expert guidance.
           </p>

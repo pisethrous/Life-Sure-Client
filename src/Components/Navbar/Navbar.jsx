@@ -3,6 +3,8 @@ import { NavLink } from "react-router";
 import Logo from "../Logo/Logo";
 import useAuthContext from "../../Hooks/useAuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import ThemeToggle from "../Theme/ThemeToggle";
+
 
 const Navbar = () => {
   const dropdownVariants = {
@@ -14,7 +16,7 @@ const Navbar = () => {
   const [isClicked, setIsClicked] = useState(false);
   const { user, logoutUser } = useAuthContext();
 
-  // 🧩 Reusable Navigation Links
+  // 🧩 Navigation Links
   const links = (
     <>
       <li>
@@ -30,19 +32,19 @@ const Navbar = () => {
         <NavLink to="/blogs">Blogs</NavLink>
       </li>
       {user && (
-        <ul className="flex gap-2">
+        <>
           <li>
             <NavLink to="/beAgent">Be a Agent</NavLink>
           </li>
           <li>
             <NavLink to="/dashboard">Dashboard</NavLink>
           </li>
-        </ul>
+        </>
       )}
     </>
   );
 
-  // 🧩 Reusable Auth Buttons for Desktop
+  // 🧩 Desktop Auth Buttons
   const desktopAuthButtons = user ? (
     <div className="flex flex-col items-center justify-center relative">
       <div
@@ -79,8 +81,7 @@ const Navbar = () => {
                     logoutUser();
                     setIsClicked(false);
                   }}
-               className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
-             transition-all duration-300"
+                  className="w-full px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent transition-all duration-300"
                 >
                   Log Out
                 </button>
@@ -92,24 +93,20 @@ const Navbar = () => {
     </div>
   ) : (
     <ul className="flex gap-2">
-      
-        <NavLink to="/auth/login">
-          <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
-            Sign In
-          </button>
-        </NavLink>
-     
-     
-        <NavLink to="/auth/register">
-          <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
-            Sign Up
-          </button>
-        </NavLink>
-    
+      <NavLink to="/auth/login">
+        <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
+          Sign In
+        </button>
+      </NavLink>
+      <NavLink to="/auth/register">
+        <button className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary">
+          Sign Up
+        </button>
+      </NavLink>
     </ul>
   );
 
-  // 🧩 Auth Buttons for Mobile
+  // 🧩 Mobile Auth Buttons
   const mobileAuthButtons = user ? (
     <div className="mt-4 pt-4 border-t border-gray-300">
       <div className="flex items-center space-x-3 mb-4">
@@ -125,7 +122,8 @@ const Navbar = () => {
       </div>
       <button
         onClick={logoutUser}
-        className="btn btn-secondary btn-sm text-white w-full"
+       className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
+             transition-all duration-300"
       >
         Log Out
       </button>
@@ -146,85 +144,60 @@ const Navbar = () => {
   );
 
   return (
-    <>
-      {/* Navbar */}
-      <div className="navbar px-6 lg:px-20 bg-primary text-white backdrop-blur-md sticky top-0 z-50">
-        <div className="navbar-start">
-          <Logo />
+    <div className="navbar px-6 lg:px-20 bg-primary text-white backdrop-blur-md sticky top-0 z-50">
+      {/* Navbar Start */}
+      <div className="navbar-start">
+        <Logo />
+      </div>
+
+      {/* Navbar Center */}
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1 space-x-2">{links}</ul>
+      </div>
+
+      {/* Navbar End */}
+      <div className="navbar-end flex items-center gap-4">
+        {/* Desktop ThemeToggle + Auth */}
+        <div className="hidden lg:flex items-center gap-4">
+          <ThemeToggle/>
+          {desktopAuthButtons}
         </div>
 
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 space-x-2">{links}</ul>
-        </div>
-
-        <div className="navbar-end">
-          {/* Desktop Auth */}
-          <div className="hidden lg:flex">{desktopAuthButtons}</div>
-
-          {/* Mobile Menu Button */}
-          <div className="dropdown dropdown-end lg:hidden">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
+        {/* Mobile Menu Button */}
+        <div className="dropdown dropdown-end lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-72"
-            >
-              <li>
-                <NavLink to="/" className="text-base-content">
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/allPolicies" className="text-base-content">
-                  All Policies
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/faqs" className="text-base-content">
-                  FAQS
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/blogs" className="text-base-content">
-                  Blogs
-                </NavLink>
-              </li>
-              {user && (
-                <ul className="flex gap-2">
-                  <li>
-                    <NavLink to="/beAgent">Be a Agent</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
-                  </li>
-                </ul>
-              )}
-
-              {/* Mobile Auth Section */}
-              {mobileAuthButtons}
-            </ul>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </div>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary text-secondary rounded-box w-72"
+          >
+            {links}
+
+            {/* ThemeToggle in Mobile */}
+            <li className="mt-2">
+              <ThemeToggle />
+            </li>
+
+            {/* Mobile Auth Buttons */}
+            {mobileAuthButtons}
+          </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

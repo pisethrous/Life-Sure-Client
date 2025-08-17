@@ -21,7 +21,7 @@ const LatestBlogs = () => {
   return (
     <section className="py-16 bg-base-100">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-neutral">Latest Blogs & Articles</h2>
+        <h2 className="text-3xl lg:text-5xl text-primary font-bold ">Latest Blogs & Articles</h2>
         <p className="text-gray-500 mt-2">Stay informed and inspired with our expert articles</p>
       </div>
 
@@ -57,7 +57,7 @@ const LatestBlogs = () => {
                     className="w-8 h-8 rounded-full"
                   />
                   <div>
-                    <p className="text-sm font-medium">{blog.author}</p>
+                    <p className="text-sm font-medium text-black/80">{blog.author}</p>
                     <p className="text-xs text-gray-400">
                       {new Date(blog.publishDate).toLocaleDateString()}
                     </p>

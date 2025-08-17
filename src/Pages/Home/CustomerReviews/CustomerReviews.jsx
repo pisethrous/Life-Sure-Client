@@ -31,7 +31,7 @@ const CustomerReviews = () => {
   return (
     <section className="py-10 bg-base-100 my-12">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-neutral">
+        <h2 className="text-3xl font-bold text-primary lg:text-5xl">
           What our customers are saying
         </h2>
         <p className="mt-2 text-gray-500 max-w-xl mx-auto">

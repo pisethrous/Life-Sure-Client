@@ -102,7 +102,7 @@ const AllPolicies = () => {
             </figure>
 
             <div className="card-body relative">
-              <h2 className="card-title text-lg font-semibold">
+              <h2 className="card-title text-primary text-lg font-semibold">
                 {policy.title}
               </h2>
               <p className="text-sm text-gray-600  line-clamp-2">

@@ -23,24 +23,24 @@ const AxiosSecure = useAxiosSecure();
     <div className="bg-[#E2E7EE]  py-12 flex lg:flex-row flex-col-reverse items-center  justify-around ">
         <div >
             <h1 className="lg:text-5xl text-2xl text-primary text-center mb-2">Get Policy News</h1>
-             <p className=" mb-6 text-md opacity-70">
+             <p className=" mb-6 text-md text-black opacity-70">
           Get simple tips, helpful blogs, and the latest policy updates straight <br />
           to your inbox. Stay informed and make smarter decisions.
         </p>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto">
-                <label >Name:</label>
+                <label className="opacity-45 text-black" >Name:</label>
           <input
             type="text"
             placeholder="Enter Your Name"
             {...register("name", { required: true })}
-            className="input input-bordered w-full text-black"
+            className="input input-bordered w-full "
           />
-            <label >Email:</label>
+            <label className="opacity-45 text-black" >Email:</label>
           <input
             type="email"
             placeholder="Enter Your Email"
             {...register("email", { required: true })}
-            className="input input-bordered w-full text-black"
+            className="input input-bordered w-full "
           />
           <button type="submit"className="btn btn-outline btn-primary w-full">
             Subscribe

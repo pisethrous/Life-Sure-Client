@@ -59,7 +59,7 @@ const cardVariants = {
 const LifeSureBenefits = () => {
   return (
     <section className="w-11/12 mx-auto px-4 my-12">
-      <h2 className="lg:text-5xl text-2xl font-bold text-center  text-gray-800">
+      <h2 className="lg:text-5xl text-2xl font-bold text-center  ">
         Benefits of  <span className="text-primary">LifeSure?</span>
       </h2>
       <p className="opacity-70 text-center my-6">Discover the unique benefits that make LifeSure your trusted partner in securing your future. <br /> From tailored life insurance plans to expert guidance and hassle-free claims, <br /> we provide peace of mind and protection for you and your loved ones—every step of the way.</p>

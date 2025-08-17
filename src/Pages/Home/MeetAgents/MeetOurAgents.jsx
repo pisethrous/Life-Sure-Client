@@ -49,7 +49,7 @@ const MeetOurAgents = () => {
     <div className="my-12 px-4 md:px-8 lg:px-16 w-full mx-auto">
       {/* Heading */}
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold">Meet Our Agents</h2>
+        <h2 className="text-3xl lg:text-5xl text-primary md:text-4xl font-bold">Meet Our Agents</h2>
         <p className="text-gray-600 mt-2">
           Your Trusted Partners in Navigating Your Insurance Journey
         </p>
@@ -77,7 +77,7 @@ const MeetOurAgents = () => {
                 alt={agent.name}
                 className="w-32 h-32 md:w-36 md:h-36 object-cover rounded-full mb-4 transition-all duration-300 hover:grayscale filter"
               />
-              <h3 className="text-lg md:text-xl font-semibold mb-1">{agent.name}</h3>
+              <h3 className="text-lg md:text-xl font-semibold mb-1 text-black/80">{agent.name}</h3>
               <p className="text-sm md:text-base text-gray-600 mb-1">
                 🎯 {agent.experience || "3+ years of experience"}
               </p>
