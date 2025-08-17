@@ -26,7 +26,7 @@ const CustomerReviews = () => {
     },
   });
 
-  if (isLoading) return <Loading></Loading>;
+  if (isLoading) return <Loading />;
 
   return (
     <section className="py-10 bg-base-100 my-12">
@@ -47,13 +47,13 @@ const CustomerReviews = () => {
         loop={true}
         spaceBetween={20}
         navigation
-        className="max-w-5xl mx-auto"
+        className="w-11/12 mx-auto"
       >
         {reviewData.map((item) => (
           <SwiperSlide key={item.id} className="review-slide">
             <div className="bg-white shadow-xl px-6 py-8 rounded-xl text-center transition-all duration-300">
               <FaQuoteLeft className="text-2xl text-primary mb-4 opacity-30" />
-            
+
               <div className="flex flex-col items-center">
                 <img
                   src={item.user_photoURL}
@@ -63,7 +63,7 @@ const CustomerReviews = () => {
                 <p className="font-bold text-primary">{item.userName}</p>
                 <p className="text-sm text-gray-500">Customer</p>
                 <Stars rating={item.rating} />
-                  <p className="text-gray-700 mb-6 text-sm">{item.review}...</p>
+                <p className="text-gray-700 mb-6 text-sm">{item.review.slice(0,120)}...</p>
               </div>
             </div>
           </SwiperSlide>
