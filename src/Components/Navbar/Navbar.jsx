@@ -79,7 +79,8 @@ const Navbar = () => {
                     logoutUser();
                     setIsClicked(false);
                   }}
-                className="px-4 py-2 text-primary bg-secondary rounded hover:bg-transparent hover:border hover:border-secondary hover:text-secondary"
+               className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
+             transition-all duration-300"
                 >
                   Log Out
                 </button>

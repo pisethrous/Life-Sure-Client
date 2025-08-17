@@ -38,13 +38,13 @@ const from = location.state || '/';
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="card bg-base-100 w-full max-w-4xl shadow-2xl p-5 flex flex-col md:flex-row">
+    <div className="flex justify-center items-center min-h-screen ">
+      <div className="card   w-11/12 mx-auto p-5 flex flex-col md:flex-row">
         <GoBack />
 
         {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-4">
-          <h1 className="font-bold text-4xl my-3 text-center text-accent">
+          <h1 className="font-bold text-2xl lg:text-5xl my-3 text-center text-primary">
             Login Now!
           </h1>
           <div className="card-body">
@@ -80,7 +80,8 @@ const from = location.state || '/';
                 </p>
               )}
 
-              <button type="submit" className="btn btn-secondary mt-4 w-full">
+              <button type="submit" className="w-full   px-3 py-2 text-sm font-medium bg-primary text-secondary hover:text-primary hover:border hover:border-primary rounded-md hover:bg-transparent
+             transition-all duration-300">
                 Login
               </button>
 
