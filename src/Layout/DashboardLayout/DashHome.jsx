@@ -14,11 +14,12 @@ import { TbTransactionDollar } from "react-icons/tb";
 import Loading from "../../Components/Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import TransactionsChart from "../../Pages/Role/Customer/TransactionsChart";
 
 const DashHome = () => {
   const { user } = useCurrentUser();
   const AxiosSecure = useAxiosSecure();
-
+// customer policy data
   const { data: myPolicies = [], isLoading } = useQuery({
     queryKey: ["myPolicies", user?.email],
     enabled: !!user?.email,
@@ -29,6 +30,17 @@ const DashHome = () => {
       return res.data;
     },
   });
+  // customer payment data
+   const { data: transactions = [] } = useQuery({
+      queryKey: ["payments"],
+      queryFn: async () => {
+        const res = await AxiosSecure.get("/payment-history");
+        return res.data;
+      },
+    });
+   const paid = transactions.filter(amount=>amount.
+status== "success");
+
 
   if (isLoading) return <Loading />;
 
@@ -82,6 +94,7 @@ const DashHome = () => {
               description="Easily submit a claim for any of your active policies."
               footer="Quick response within 48 hours"
             />
+        
           </>
         )}
 
@@ -127,6 +140,9 @@ const DashHome = () => {
           </>
         )}
       </div>
+      {user.role === "customer" && (
+  <TransactionsChart paid={paid} />
+)}
     </div>
   );
 };
